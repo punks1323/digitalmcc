@@ -1,5 +1,6 @@
 package com.cluster.digital.database.entity;
 
+import com.cluster.digital.model.response.MccDTOResponse;
 import com.cluster.digital.utils.MConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -41,4 +42,17 @@ public class Mcc extends Auditable<String> {
     private Route route;
     private String image;
 
+    public MccDTOResponse getResponseDTO() {
+        MccDTOResponse mccDTOResponse = new MccDTOResponse();
+        mccDTOResponse.setId(this.getId());
+        mccDTOResponse.setName(this.getName());
+        mccDTOResponse.setAddress(this.getAddress());
+        mccDTOResponse.setPincode(this.getPincode());
+        mccDTOResponse.setVillage(this.getVillage());
+        mccDTOResponse.setTaluk(this.getTaluk());
+        mccDTOResponse.setLatitude(this.getLatitude());
+        mccDTOResponse.setLongitude(this.getLongitude());
+        mccDTOResponse.setImage(this.getImage());
+        return mccDTOResponse;
+    }
 }

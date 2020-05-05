@@ -1,8 +1,10 @@
 package com.cluster.digital.api.admin;
 
 import com.cluster.digital.model.request.MccDTORequest;
+import com.cluster.digital.model.response.MccDTOResponse;
+import com.cluster.digital.service.MccService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin/mcc")
 public class MccController {
 
+    @Autowired
+    MccService mccService;
+
     @PostMapping
-    public void m1(@RequestBody MccDTORequest mccDTORequest) {
-        System.out.println(mccDTORequest.getFile().isEmpty());
+    public MccDTOResponse createMCC(MccDTORequest mccDTORequest) throws Throwable {
+        return mccService.createNewMcc(mccDTORequest);
     }
 }
