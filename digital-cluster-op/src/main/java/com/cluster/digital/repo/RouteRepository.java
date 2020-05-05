@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Repository
 public interface RouteRepository extends JpaRepository<Route, String> {
-    Collection<Route> findByIdIn(Collection<String> ids);
+    List<Route> findByIdIn(Collection<String> ids);
 
     List<Route> findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(String name, String district, String state);
 }

@@ -1,13 +1,13 @@
 package com.cluster.digital.api.admin;
 
-import com.cluster.digital.database.entity.Route;
-import com.cluster.digital.model.request.RouteDTO;
+import com.cluster.digital.model.request.RouteDTORequest;
+import com.cluster.digital.model.response.RouteDTOResponse;
 import com.cluster.digital.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -22,12 +22,17 @@ public class RouteController {
     RouteService routeService;
 
     @GetMapping
-    public Collection<Route> getAllRoutes(@RequestParam(value = "search", required = false) String query) {
+    public List<RouteDTOResponse> getAllRoutes(@RequestParam(value = "search", required = false) String query) {
         return routeService.getAllRoutes(query);
     }
 
     @PostMapping
-    public Route createNewRoute(@Valid @RequestBody RouteDTO routeDTO) throws Throwable {
-        return routeService.createNewRoute(routeDTO);
+    public RouteDTOResponse createNewRoute(@Valid @RequestBody RouteDTORequest routeDTORequest) throws Throwable {
+        return routeService.createNewRoute(routeDTORequest);
+    }
+
+    @PatchMapping("/{routeId}")
+    public RouteDTOResponse addRoutesToDairy(@PathVariable("routeId") String routeId, @RequestBody List<String> mccIds) throws Throwable {
+        return routeService.addMccToRoutes(routeId, mccIds);
     }
 }

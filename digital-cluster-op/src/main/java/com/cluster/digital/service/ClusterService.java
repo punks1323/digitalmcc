@@ -1,9 +1,9 @@
 package com.cluster.digital.service;
 
-import com.cluster.digital.database.entity.Cluster;
-import com.cluster.digital.model.request.ClusterDTO;
+import com.cluster.digital.model.request.ClusterDTORequest;
+import com.cluster.digital.model.response.ClusterDTOResponse;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -11,7 +11,7 @@ import java.util.Collection;
  * @since 2020-05-03
  */
 public interface ClusterService {
-    Cluster createNewCluster(ClusterDTO clusterDTO);
+    ClusterDTOResponse createNewCluster(ClusterDTORequest clusterDTORequest);
 
-    Collection<Cluster> getAllClusters(String query);
+    List<ClusterDTOResponse> getAllClusters(String query);
 }

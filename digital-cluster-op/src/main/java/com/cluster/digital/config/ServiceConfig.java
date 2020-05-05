@@ -4,9 +4,11 @@ import com.cluster.digital.repo.*;
 import com.cluster.digital.service.AppUserService;
 import com.cluster.digital.service.ClusterService;
 import com.cluster.digital.service.DairyService;
+import com.cluster.digital.service.RouteService;
 import com.cluster.digital.service.impl.AppUserServiceImpl;
 import com.cluster.digital.service.impl.ClusterServiceImpl;
 import com.cluster.digital.service.impl.DairyServiceImpl;
+import com.cluster.digital.service.impl.RouteServiceImpl;
 import com.cluster.digital.utils.AppAuditorAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,5 +40,10 @@ public class ServiceConfig {
     @Bean
     public DairyService dairyService(ClusterRepository clusterRepository, DairyRepository dairyRepository, RouteRepository routeRepository) {
         return new DairyServiceImpl(clusterRepository, dairyRepository, routeRepository);
+    }
+
+    @Bean
+    public RouteService routeService(RouteRepository routeRepository, DairyRepository dairyRepository, MccRepository mccRepository) {
+        return new RouteServiceImpl(routeRepository, dairyRepository, mccRepository);
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -13,7 +14,7 @@ import java.util.Collection;
  */
 @Repository
 public interface MccRepository extends JpaRepository<Mcc, String> {
-    Collection<Mcc> findByIdIn(Collection<String> ids);
+    List<Mcc> findByIdIn(Collection<String> ids);
 
-    Collection<Mcc> findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(String name, String district, String state);
+    Collection<Mcc> findByNameIgnoreCaseContainingOrAddressIgnoreCaseContainingOrVillageIgnoreCaseContainingOrTalukIgnoreCaseContainingOrPincodeIgnoreCaseContaining(String name, String address, String village, String taluk, String pincode);
 }

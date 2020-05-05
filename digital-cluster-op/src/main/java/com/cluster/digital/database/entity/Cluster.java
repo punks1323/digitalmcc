@@ -1,5 +1,6 @@
 package com.cluster.digital.database.entity;
 
+import com.cluster.digital.model.response.ClusterDTOResponse;
 import com.cluster.digital.utils.MConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.Parameter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 /**
@@ -39,4 +41,13 @@ public class Cluster extends Auditable<String> {
     @OneToMany(mappedBy = "cluster")
     private Collection<Dairy> dairies = new ArrayList<>();
 
+    public ClusterDTOResponse getResponseDTO() {
+        ClusterDTOResponse clusterDTOResponse = new ClusterDTOResponse();
+        clusterDTOResponse.setId(this.getId());
+        clusterDTOResponse.setName(this.getName());
+        clusterDTOResponse.setDistrict(this.getDistrict());
+        clusterDTOResponse.setState(this.getState());
+        clusterDTOResponse.setDairies(dairies.stream().map(Dairy::getId).collect(Collectors.toList()));
+        return clusterDTOResponse;
+    }
 }

@@ -1,13 +1,14 @@
 package com.cluster.digital.database.entity;
 
+import com.cluster.digital.model.response.DairyDTOResponse;
 import com.cluster.digital.utils.MConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -38,10 +39,20 @@ public class Dairy extends Auditable<String> {
     private Cluster cluster;
 
     @OneToMany(mappedBy = "dairy")
-    private Collection<Route> routes = new ArrayList<>();
+    private List<Route> routes;
 
     private String district;
 
     private String state;
 
+    public DairyDTOResponse getResponseDTO() {
+        DairyDTOResponse dairyDTOResponse = new DairyDTOResponse();
+        dairyDTOResponse.setId(this.getId());
+        dairyDTOResponse.setName(this.getName());
+        dairyDTOResponse.setDistrict(this.getDistrict());
+        dairyDTOResponse.setState(this.getState());
+        dairyDTOResponse.setClusterId(this.getCluster().getId());
+        dairyDTOResponse.setRoutes(this.getRoutes().stream().map(Route::getId).collect(Collectors.toList()));
+        return dairyDTOResponse;
+    }
 }

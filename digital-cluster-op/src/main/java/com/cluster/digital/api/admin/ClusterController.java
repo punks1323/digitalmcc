@@ -1,13 +1,13 @@
 package com.cluster.digital.api.admin;
 
-import com.cluster.digital.database.entity.Cluster;
-import com.cluster.digital.model.request.ClusterDTO;
+import com.cluster.digital.model.request.ClusterDTORequest;
+import com.cluster.digital.model.response.ClusterDTOResponse;
 import com.cluster.digital.service.ClusterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -22,12 +22,12 @@ public class ClusterController {
     ClusterService clusterService;
 
     @GetMapping
-    public Collection<Cluster> getAllClusters(@RequestParam(value = "search", required = false) String query) {
+    public List<ClusterDTOResponse> getAllClusters(@RequestParam(value = "search", required = false) String query) {
         return clusterService.getAllClusters(query);
     }
 
     @PostMapping
-    public Cluster createCluster(@Valid @RequestBody ClusterDTO clusterDTO) {
-        return clusterService.createNewCluster(clusterDTO);
+    public ClusterDTOResponse createCluster(@Valid @RequestBody ClusterDTORequest clusterDTORequest) {
+        return clusterService.createNewCluster(clusterDTORequest);
     }
 }

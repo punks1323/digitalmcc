@@ -1,9 +1,9 @@
 package com.cluster.digital.service;
 
-import com.cluster.digital.database.entity.Route;
-import com.cluster.digital.model.request.RouteDTO;
+import com.cluster.digital.model.request.RouteDTORequest;
+import com.cluster.digital.model.response.RouteDTOResponse;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -11,7 +11,9 @@ import java.util.Collection;
  * @since 2020-05-04
  */
 public interface RouteService {
-    Route createNewRoute(RouteDTO routeDTO) throws Throwable;
+    RouteDTOResponse createNewRoute(RouteDTORequest routeDTORequest) throws Throwable;
 
-    Collection<Route> getAllRoutes(String query);
+    List<RouteDTOResponse> getAllRoutes(String query);
+
+    RouteDTOResponse addMccToRoutes(String dairyId, List<String> mccIds) throws Throwable;
 }

@@ -1,5 +1,6 @@
 package com.cluster.digital.exception.globalexceptionhandling;
 
+import com.cluster.digital.exception.NotFoundException;
 import com.cluster.digital.model.response.ErrorDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,14 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         ErrorDetails errorDetails = new ErrorDetails(new Date(), "Duplicate entry",
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<ErrorDetails> handleNotFoundException(Exception e, WebRequest request) {
+        logger.error("{} {}", e.getMessage(), e);
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)

@@ -12,7 +12,7 @@ import java.util.Collection;
  * @since 2020-05-03
  */
 @Data
-public class RouteDTO {
+public class RouteDTORequest {
     @NotBlank(message = "Route name must not be empty")
     private String name;
     @NotBlank(message = "Dairy id must not be empty")

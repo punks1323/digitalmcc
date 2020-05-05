@@ -1,13 +1,13 @@
 package com.cluster.digital.api.admin;
 
-import com.cluster.digital.database.entity.Dairy;
-import com.cluster.digital.model.request.DairyDTO;
+import com.cluster.digital.model.request.DairyDTORequest;
+import com.cluster.digital.model.response.DairyDTOResponse;
 import com.cluster.digital.service.DairyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -22,12 +22,17 @@ public class DairyController {
     DairyService dairyService;
 
     @GetMapping
-    public Collection<Dairy> getAllDairies(@RequestParam(value = "search", required = false) String query) {
+    public List<DairyDTOResponse> getAllDairies(@RequestParam(value = "search", required = false) String query) {
         return dairyService.getAllDairies(query);
     }
 
     @PostMapping
-    public Dairy createNewDairy(@Valid @RequestBody DairyDTO dairyDTO) throws Throwable {
-        return dairyService.createNewDairy(dairyDTO);
+    public DairyDTOResponse createNewDairy(@Valid @RequestBody DairyDTORequest dairyDTORequest) throws Throwable {
+        return dairyService.createNewDairy(dairyDTORequest);
+    }
+
+    @PatchMapping("/{dairyId}")
+    public DairyDTOResponse addRoutesToDairy(@PathVariable("dairyId") String dairyId, @RequestBody List<String> routeIds) throws Throwable {
+        return dairyService.addRoutesToDairy(dairyId, routeIds);
     }
 }

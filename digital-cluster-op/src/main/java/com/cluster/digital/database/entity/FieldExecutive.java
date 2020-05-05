@@ -37,7 +37,6 @@ public class FieldExecutive extends Auditable<String> {
     private String mobile;
 
     @OneToOne
-    @JoinColumn(name = "route_id")
     private Route route;
 
 }

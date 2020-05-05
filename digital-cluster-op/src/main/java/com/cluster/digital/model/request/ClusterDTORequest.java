@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  * @since 2020-05-03
  */
 @Data
-public class ClusterDTO {
+public class ClusterDTORequest {
     @NotBlank(message = "Cluster name must not be empty")
     private String name;
     private String district;

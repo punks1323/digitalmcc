@@ -12,7 +12,7 @@ import java.util.Collection;
  * @since 2020-05-03
  */
 @Data
-public class DairyDTO {
+public class DairyDTORequest {
     @NotBlank(message = "Dairy name must not be empty")
     private String name;
     @NotBlank(message = "Dairy cluster name can not be empty")

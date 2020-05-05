@@ -1,11 +1,13 @@
 package com.cluster.digital.service.impl;
 
 import com.cluster.digital.database.entity.Cluster;
-import com.cluster.digital.model.request.ClusterDTO;
+import com.cluster.digital.model.request.ClusterDTORequest;
+import com.cluster.digital.model.response.ClusterDTOResponse;
 import com.cluster.digital.repo.ClusterRepository;
 import com.cluster.digital.service.ClusterService;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author pankaj
@@ -21,16 +23,17 @@ public class ClusterServiceImpl implements ClusterService {
     }
 
     @Override
-    public Cluster createNewCluster(ClusterDTO clusterDTO) {
+    public ClusterDTOResponse createNewCluster(ClusterDTORequest clusterDTORequest) {
         Cluster cluster = new Cluster();
-        cluster.setName(clusterDTO.getName());
-        cluster.setDistrict(clusterDTO.getDistrict());
-        cluster.setState(clusterDTO.getState());
-        return clusterRepository.save(cluster);
+        cluster.setName(clusterDTORequest.getName());
+        cluster.setDistrict(clusterDTORequest.getDistrict());
+        cluster.setState(clusterDTORequest.getState());
+        return clusterRepository.save(cluster).getResponseDTO();
     }
 
     @Override
-    public Collection<Cluster> getAllClusters(String query) {
-        return query == null ? clusterRepository.findAll() : clusterRepository.findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(query, query, query);
+    public List<ClusterDTOResponse> getAllClusters(String query) {
+        List<Cluster> clusters = query == null ? clusterRepository.findAll() : clusterRepository.findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(query, query, query);
+        return clusters.stream().map(Cluster::getResponseDTO).collect(Collectors.toList());
     }
 }

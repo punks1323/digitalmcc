@@ -1,9 +1,9 @@
 package com.cluster.digital.service;
 
-import com.cluster.digital.database.entity.Dairy;
-import com.cluster.digital.model.request.DairyDTO;
+import com.cluster.digital.model.request.DairyDTORequest;
+import com.cluster.digital.model.response.DairyDTOResponse;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -11,7 +11,9 @@ import java.util.Collection;
  * @since 2020-05-03
  */
 public interface DairyService {
-    Dairy createNewDairy(DairyDTO dairyDTO) throws Throwable;
+    DairyDTOResponse createNewDairy(DairyDTORequest dairyDTORequest) throws Throwable;
 
-    Collection<Dairy> getAllDairies(String query);
+    List<DairyDTOResponse> getAllDairies(String query);
+
+    DairyDTOResponse addRoutesToDairy(String dairyId, List<String> routeIds) throws Throwable;
 }
