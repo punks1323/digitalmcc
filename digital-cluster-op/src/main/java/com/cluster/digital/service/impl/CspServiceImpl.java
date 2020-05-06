@@ -48,12 +48,12 @@ public class CspServiceImpl implements CspService {
 
         Csp saveCsp = cspRepository.save(csp);
 
-        // save kyc image
-        String imageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP_IMAGE, request.getCspImage(), mccOptional.get().getId());
+        // save csp image
+        String imageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP_IMAGE, request.getCspImage(), saveCsp.getId());
         saveCsp.setCspImage(imageUri);
 
-        // save csp image
-        String kycImageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP_KYC_IMAGE, request.getKycImage(), mccOptional.get().getId());
+        // save kyc image
+        String kycImageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP_KYC_IMAGE, request.getKycImage(), saveCsp.getId());
         saveCsp.setKycImage(kycImageUri);
 
         return cspRepository.save(saveCsp).getResponseDTO();

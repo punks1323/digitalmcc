@@ -42,6 +42,7 @@ public class FarmerServiceImpl implements FarmerService {
         farmer.setFirstName(request.getFirstName());
         farmer.setMiddleName(request.getMiddleName());
         farmer.setLastName(request.getLastName());
+        farmer.setMobileNumber(request.getMobileNumber());
         farmer.setHouseNo(request.getHouseNo());
         farmer.setVillage(request.getVillage());
         farmer.setTaluk(request.getTaluk());

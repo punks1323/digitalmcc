@@ -42,7 +42,6 @@ public class FileStorageServiceImpl implements FileStorageService {
 
             return ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path(downloadUri)
-                    .path(uploadFileLocation.getCanonicalPath())
                     .toUriString();
         } catch (Exception e) {
             log.warn("Failed to save uploaded file", e);

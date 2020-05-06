@@ -48,7 +48,7 @@ public class MccController {
         return mccService.getMcc(mccId);
     }
 
-    @GetMapping("/image/{imageType}/{fileName}/")
+    @GetMapping("/image/{imageType}/{fileName}")
     public ResponseEntity<Resource> downloadImageForMcc(@PathVariable("imageType") FileStorageService.ImageType imageType, @PathVariable("fileName") String fileName, HttpServletRequest request) {
         try {
             Resource resource = fileStorageService.readFile(request, imageType, fileName);

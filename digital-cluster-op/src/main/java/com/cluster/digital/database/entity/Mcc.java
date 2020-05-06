@@ -35,7 +35,6 @@ public class Mcc extends Auditable<String> {
     private String address;
     private String village;
     private String taluk;
-    @Size(min = 6, max = 6)
     private String pincode;
     private Double latitude;
     private Double longitude;

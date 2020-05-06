@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class FarmersController {
     FarmerService farmerService;
 
     @PostMapping
-    public FarmerDTOResponse createNewFarmer(FarmerDTORequest farmerDTORequest) throws Throwable {
+    public FarmerDTOResponse createNewFarmer(@Valid FarmerDTORequest farmerDTORequest) throws Throwable {
         return farmerService.createNewFarmer(farmerDTORequest);
     }
 

@@ -42,17 +42,22 @@ public class ServiceConfig {
     }
 
     @Bean
-    public MccService mccService(MccRepository mccRepository, RouteRepository routeRepository,FileStorageService fileStorageService) {
-        return new MccServiceImpl(mccRepository, routeRepository,fileStorageService);
+    public MccService mccService(MccRepository mccRepository, RouteRepository routeRepository, FileStorageService fileStorageService) {
+        return new MccServiceImpl(mccRepository, routeRepository, fileStorageService);
     }
 
     @Bean
-    public CspService cspService(CspRepository cspRepository, MccRepository mccRepository,FileStorageService fileStorageService) {
-        return new CspServiceImpl(cspRepository, mccRepository,fileStorageService);
+    public CspService cspService(CspRepository cspRepository, MccRepository mccRepository, FileStorageService fileStorageService) {
+        return new CspServiceImpl(cspRepository, mccRepository, fileStorageService);
     }
 
     @Bean
     public FileStorageService fileStorageService() {
         return new FileStorageServiceImpl();
+    }
+
+    @Bean
+    public FarmerService farmerService(MccRepository mccRepository, FarmerRepository farmerRepository, FileStorageService fileStorageService) {
+        return new FarmerServiceImpl(mccRepository, farmerRepository, fileStorageService);
     }
 }

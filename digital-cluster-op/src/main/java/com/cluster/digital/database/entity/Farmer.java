@@ -46,10 +46,11 @@ public class Farmer extends Auditable<String> {
     private String village;
     private String taluk;
 
-    @Size(min = 6, max = 6)
     private String pincode;
     private Double latitude;
     private Double longitude;
+
+    @ManyToOne
     private Mcc mcc;
 
     @Enumerated(EnumType.ORDINAL)
