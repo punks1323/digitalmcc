@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -34,6 +35,7 @@ public class Mcc extends Auditable<String> {
     private String address;
     private String village;
     private String taluk;
+    @Size(min = 6, max = 6)
     private String pincode;
     private Double latitude;
     private Double longitude;

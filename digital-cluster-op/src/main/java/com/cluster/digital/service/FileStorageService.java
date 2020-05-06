@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface FileStorageService {
 
     enum ImageType {
-        MCC_IMAGE, CSP_IMAGE, CSP_KYC_IMAGE
+        MCC_IMAGE, CSP_IMAGE, CSP_KYC_IMAGE,FARMER_IMAGE
     }
 
     String saveFile(ImageType imageType, MultipartFile multipartFile, String mccId);

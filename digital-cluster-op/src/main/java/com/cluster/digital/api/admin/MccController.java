@@ -48,10 +48,10 @@ public class MccController {
         return mccService.getMcc(mccId);
     }
 
-    @GetMapping("/image/{mccId}/{imageType}")
-    public ResponseEntity<Resource> downloadImageForMcc(@PathVariable("mccId") String mccId, @PathVariable("imageType") FileStorageService.ImageType imageType, HttpServletRequest request) {
+    @GetMapping("/image/{imageType}/{fileName}/")
+    public ResponseEntity<Resource> downloadImageForMcc(@PathVariable("imageType") FileStorageService.ImageType imageType, @PathVariable("fileName") String fileName, HttpServletRequest request) {
         try {
-            Resource resource = fileStorageService.readFile(request, imageType, mccId);
+            Resource resource = fileStorageService.readFile(request, imageType, fileName);
             if (resource != null && resource.exists()) {
                 String contentType = null;
                 contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());

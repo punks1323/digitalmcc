@@ -22,15 +22,16 @@ import java.nio.file.Paths;
 public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
-    public String saveFile(ImageType imageType, MultipartFile file, String mccId) {
+    public String saveFile(ImageType imageType, MultipartFile file, String primaryKey) {
         try {
             if (file.isEmpty() || file.getOriginalFilename() == null || !file.getOriginalFilename().contains("."))
                 return null;
 
-            File uploadDir = new File(System.getProperty("user.dir") + File.separator + "uploads" + File.separator + mccId + File.separator + imageType.name());
-            String downloadUri = File.separator + "image" + File.separator + mccId + File.separator + imageType.name();
+            File uploadDir = new File(System.getProperty("user.dir") + File.separator + "uploads" + File.separator + imageType.name());
+            String fileName = primaryKey + file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
+            String downloadUri = File.separator + "image" + File.separator + imageType.name() + File.separator + fileName;
 
-            File uploadFileLocation = new File(uploadDir, file.getOriginalFilename());
+            File uploadFileLocation = new File(uploadDir, fileName);
 
             if (!uploadDir.exists()) {
                 System.out.println("Dir created: " + uploadDir.mkdirs());
@@ -50,12 +51,12 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Resource readFile(HttpServletRequest request, ImageType imageType, String mccId) {
-        File uploadDir = new File(System.getProperty("user.dir") + File.separator + "uploads" + File.separator + mccId + File.separator + imageType.name());
+    public Resource readFile(HttpServletRequest request, ImageType imageType, String fileName) {
 
         try {
+            File uploadDir = new File(System.getProperty("user.dir") + File.separator + "uploads" + File.separator + imageType.name());
             Path fileStorageLocation = Paths.get(uploadDir.getCanonicalPath());
-            Path filePath = fileStorageLocation.resolve(uploadDir.listFiles()[0].getName()).normalize();
+            Path filePath = fileStorageLocation.resolve(fileName).normalize();
             return new UrlResource(filePath.toUri());
         } catch (Exception ex) {
             ex.printStackTrace();
