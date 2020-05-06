@@ -6,9 +6,9 @@ import com.cluster.digital.database.entity.Route;
 import com.cluster.digital.exception.NotFoundException;
 import com.cluster.digital.model.request.RouteDTORequest;
 import com.cluster.digital.model.response.RouteDTOResponse;
-import com.cluster.digital.repo.DairyRepository;
-import com.cluster.digital.repo.MccRepository;
-import com.cluster.digital.repo.RouteRepository;
+import com.cluster.digital.database.repo.DairyRepository;
+import com.cluster.digital.database.repo.MccRepository;
+import com.cluster.digital.database.repo.RouteRepository;
 import com.cluster.digital.service.RouteService;
 
 import java.util.Collection;
@@ -56,7 +56,9 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<RouteDTOResponse> getAllRoutes(String query) {
-        List<Route> routes = routeRepository.findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(query, query, query);
+        List<Route> routes = query == null ?
+                routeRepository.findAll() :
+                routeRepository.findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(query, query, query);
         return routes.stream().map(Route::getResponseDTO).collect(Collectors.toList());
     }
 
@@ -71,5 +73,17 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeOptional.get();
         route.getMccs().addAll(mccList);
         return routeRepository.save(route).getResponseDTO();
+    }
+
+    @Override
+    public RouteDTOResponse getRoute(String routeId) throws Throwable {
+        Optional<Route> routeOptional = routeRepository.findById(routeId);
+        routeOptional.orElseThrow(new Supplier<Throwable>() {
+            @Override
+            public Throwable get() {
+                return new NotFoundException("No route found with given routeId: " + routeId);
+            }
+        });
+        return routeOptional.get().getResponseDTO();
     }
 }

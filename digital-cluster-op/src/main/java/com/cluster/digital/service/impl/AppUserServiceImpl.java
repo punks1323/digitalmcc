@@ -2,8 +2,8 @@ package com.cluster.digital.service.impl;
 
 import com.cluster.digital.database.entity.AppUser;
 import com.cluster.digital.database.entity.Role;
-import com.cluster.digital.repo.AppUserRepository;
-import com.cluster.digital.repo.RoleRepository;
+import com.cluster.digital.database.repo.AppUserRepository;
+import com.cluster.digital.database.repo.RoleRepository;
 import com.cluster.digital.service.AppUserService;
 import com.cluster.digital.utils.MConstants;
 import com.cluster.digital.utils.security.SecurityUtil;

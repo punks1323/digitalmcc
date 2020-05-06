@@ -1,4 +1,4 @@
-package com.cluster.digital.repo;
+package com.cluster.digital.database.repo;
 
 import com.cluster.digital.database.entity.Mcc;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +16,5 @@ import java.util.List;
 public interface MccRepository extends JpaRepository<Mcc, String> {
     List<Mcc> findByIdIn(Collection<String> ids);
 
-    Collection<Mcc> findByNameIgnoreCaseContainingOrAddressIgnoreCaseContainingOrVillageIgnoreCaseContainingOrTalukIgnoreCaseContainingOrPincodeIgnoreCaseContaining(String name, String address, String village, String taluk, String pincode);
+    List<Mcc> findByNameIgnoreCaseContainingOrAddressIgnoreCaseContainingOrVillageIgnoreCaseContainingOrTalukIgnoreCaseContainingOrPincodeIgnoreCaseContaining(String name, String address, String village, String taluk, String pincode);
 }

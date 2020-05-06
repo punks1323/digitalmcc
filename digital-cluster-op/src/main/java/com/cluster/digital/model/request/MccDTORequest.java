@@ -23,5 +23,5 @@ public class MccDTORequest {
     private Double latitude;
     private Double longitude;
     private String routeId;
-    private MultipartFile file;
+    private MultipartFile mccImage;
 }

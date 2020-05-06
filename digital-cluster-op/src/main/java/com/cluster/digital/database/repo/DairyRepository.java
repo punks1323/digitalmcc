@@ -1,4 +1,4 @@
-package com.cluster.digital.repo;
+package com.cluster.digital.database.repo;
 
 import com.cluster.digital.database.entity.Dairy;
 import org.springframework.data.jpa.repository.JpaRepository;

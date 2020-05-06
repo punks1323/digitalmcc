@@ -16,4 +16,6 @@ public interface RouteService {
     List<RouteDTOResponse> getAllRoutes(String query);
 
     RouteDTOResponse addMccToRoutes(String dairyId, List<String> mccIds) throws Throwable;
+
+    RouteDTOResponse getRoute(String routeId) throws Throwable;
 }

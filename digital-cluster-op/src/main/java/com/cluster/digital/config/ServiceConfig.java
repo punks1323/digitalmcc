@@ -1,6 +1,6 @@
 package com.cluster.digital.config;
 
-import com.cluster.digital.repo.*;
+import com.cluster.digital.database.repo.*;
 import com.cluster.digital.service.*;
 import com.cluster.digital.service.impl.*;
 import com.cluster.digital.utils.AppAuditorAware;
@@ -42,7 +42,17 @@ public class ServiceConfig {
     }
 
     @Bean
-    public MccService mccService(MccRepository mccRepository, RouteRepository routeRepository) {
-        return new MccServiceImpl(mccRepository, routeRepository);
+    public MccService mccService(MccRepository mccRepository, RouteRepository routeRepository,FileStorageService fileStorageService) {
+        return new MccServiceImpl(mccRepository, routeRepository,fileStorageService);
+    }
+
+    @Bean
+    public CspService cspService(CspRepository cspRepository, MccRepository mccRepository,FileStorageService fileStorageService) {
+        return new CspServiceImpl(cspRepository, mccRepository,fileStorageService);
+    }
+
+    @Bean
+    public FileStorageService fileStorageService() {
+        return new FileStorageServiceImpl();
     }
 }

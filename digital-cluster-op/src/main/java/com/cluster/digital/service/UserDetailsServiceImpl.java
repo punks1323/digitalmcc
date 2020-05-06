@@ -2,7 +2,7 @@ package com.cluster.digital.service;
 
 import com.cluster.digital.database.entity.AppUser;
 import com.cluster.digital.database.entity.Role;
-import com.cluster.digital.repo.AppUserRepository;
+import com.cluster.digital.database.repo.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

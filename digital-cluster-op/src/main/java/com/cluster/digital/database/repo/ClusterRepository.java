@@ -1,7 +1,6 @@
-package com.cluster.digital.repo;
+package com.cluster.digital.database.repo;
 
 import com.cluster.digital.database.entity.Cluster;
-import com.cluster.digital.database.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -26,6 +26,11 @@ public class RouteController {
         return routeService.getAllRoutes(query);
     }
 
+    @GetMapping("/{routeId}")
+    public RouteDTOResponse getRoute(@PathVariable("routeId") String routeId) throws Throwable {
+        return routeService.getRoute(routeId);
+    }
+
     @PostMapping
     public RouteDTOResponse createNewRoute(@Valid @RequestBody RouteDTORequest routeDTORequest) throws Throwable {
         return routeService.createNewRoute(routeDTORequest);

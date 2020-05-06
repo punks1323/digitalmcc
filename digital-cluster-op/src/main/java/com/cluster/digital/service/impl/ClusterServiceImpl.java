@@ -3,7 +3,7 @@ package com.cluster.digital.service.impl;
 import com.cluster.digital.database.entity.Cluster;
 import com.cluster.digital.model.request.ClusterDTORequest;
 import com.cluster.digital.model.response.ClusterDTOResponse;
-import com.cluster.digital.repo.ClusterRepository;
+import com.cluster.digital.database.repo.ClusterRepository;
 import com.cluster.digital.service.ClusterService;
 
 import java.util.List;

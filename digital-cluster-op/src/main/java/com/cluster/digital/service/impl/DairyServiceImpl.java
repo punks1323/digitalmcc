@@ -6,9 +6,9 @@ import com.cluster.digital.database.entity.Route;
 import com.cluster.digital.exception.NotFoundException;
 import com.cluster.digital.model.request.DairyDTORequest;
 import com.cluster.digital.model.response.DairyDTOResponse;
-import com.cluster.digital.repo.ClusterRepository;
-import com.cluster.digital.repo.DairyRepository;
-import com.cluster.digital.repo.RouteRepository;
+import com.cluster.digital.database.repo.ClusterRepository;
+import com.cluster.digital.database.repo.DairyRepository;
+import com.cluster.digital.database.repo.RouteRepository;
 import com.cluster.digital.service.DairyService;
 
 import java.util.Collection;

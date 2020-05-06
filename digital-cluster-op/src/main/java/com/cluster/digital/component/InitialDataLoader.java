@@ -1,7 +1,7 @@
 package com.cluster.digital.component;
 
 import com.cluster.digital.database.entity.Role;
-import com.cluster.digital.repo.RoleRepository;
+import com.cluster.digital.database.repo.RoleRepository;
 import com.cluster.digital.service.AppUserService;
 import com.cluster.digital.utils.MConstants;
 import org.springframework.beans.factory.annotation.Autowired;
