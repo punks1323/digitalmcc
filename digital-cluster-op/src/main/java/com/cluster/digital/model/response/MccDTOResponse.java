@@ -18,4 +18,5 @@ public class MccDTOResponse {
     private String image;
     private Double latitude;
     private Double longitude;
+    private String routeId;
 }

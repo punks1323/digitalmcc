@@ -54,6 +54,7 @@ public class Mcc extends Auditable<String> {
         mccDTOResponse.setLatitude(this.getLatitude());
         mccDTOResponse.setLongitude(this.getLongitude());
         mccDTOResponse.setImage(this.getImage());
+        mccDTOResponse.setRouteId(this.getRoute().getId());
         return mccDTOResponse;
     }
 }
