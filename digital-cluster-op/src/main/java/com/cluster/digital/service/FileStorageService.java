@@ -1,5 +1,6 @@
 package com.cluster.digital.service;
 
+import com.cluster.digital.exception.ImageDoesNotExistException;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,10 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 public interface FileStorageService {
 
     enum ImageType {
-        MCC_IMAGE, CSP_IMAGE, CSP_KYC_IMAGE,FARMER_IMAGE
+        MCC, CSP, CSP_KYC, FARMER
     }
 
-    String saveFile(ImageType imageType, MultipartFile multipartFile, String mccId);
+    String saveFile(ImageType imageType, MultipartFile multipartFile, String id);
 
-    Resource readFile(HttpServletRequest request, ImageType imageType, String mccId);
+    Resource readFile(HttpServletRequest request, ImageType imageType, String id) throws ImageDoesNotExistException;
+
+    Boolean deleteFile(ImageType imageType, String id) throws ImageDoesNotExistException;
 }

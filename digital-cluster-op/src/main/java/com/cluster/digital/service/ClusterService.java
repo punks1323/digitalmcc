@@ -10,8 +10,10 @@ import java.util.List;
  * @version 1.0
  * @since 2020-05-03
  */
-public interface ClusterService {
+public interface ClusterService extends BaseInterface {
     ClusterDTOResponse createNewCluster(ClusterDTORequest clusterDTORequest);
 
     List<ClusterDTOResponse> getAllClusters(String query);
+
+    ClusterDTOResponse getCluster(String clusterId) throws Throwable;
 }

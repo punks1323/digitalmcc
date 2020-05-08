@@ -1,7 +1,7 @@
 package com.cluster.digital.database.entity;
 
 import com.cluster.digital.model.response.DairyDTOResponse;
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -28,7 +28,7 @@ public class Dairy extends Auditable<String> {
     @Id
     @GeneratedValue(generator = GENERATOR)
     @GenericGenerator(name = GENERATOR,
-            parameters = {@Parameter(name = MConstants.ENTITY_ID.PREFIX, value = PREFIX), @Parameter(name = MConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = LEAD_COUNT)},
+            parameters = {@Parameter(name = DConstants.ENTITY_ID.PREFIX, value = PREFIX), @Parameter(name = DConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = LEAD_COUNT)},
             strategy = GENERATOR_PACKAGE)
     private String id;
 

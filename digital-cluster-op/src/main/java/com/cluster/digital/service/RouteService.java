@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1.0
  * @since 2020-05-04
  */
-public interface RouteService {
+public interface RouteService extends BaseInterface {
     RouteDTOResponse createNewRoute(RouteDTORequest routeDTORequest) throws Throwable;
 
     List<RouteDTOResponse> getAllRoutes(String query);

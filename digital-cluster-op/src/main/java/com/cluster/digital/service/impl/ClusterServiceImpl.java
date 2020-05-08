@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class ClusterServiceImpl implements ClusterService {
 
-    private ClusterRepository clusterRepository;
+    private final ClusterRepository clusterRepository;
 
     public ClusterServiceImpl(ClusterRepository clusterRepository) {
         this.clusterRepository = clusterRepository;
@@ -35,5 +35,10 @@ public class ClusterServiceImpl implements ClusterService {
     public List<ClusterDTOResponse> getAllClusters(String query) {
         List<Cluster> clusters = query == null ? clusterRepository.findAll() : clusterRepository.findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(query, query, query);
         return clusters.stream().map(Cluster::getResponseDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public ClusterDTOResponse getCluster(String clusterId) throws Throwable {
+        return check4ClusterExistence(clusterRepository, clusterId).getResponseDTO();
     }
 }

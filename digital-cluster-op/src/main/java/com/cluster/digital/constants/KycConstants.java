@@ -7,18 +7,9 @@ package com.cluster.digital.constants;
  */
 public interface KycConstants {
     enum KycType {
-        AADHAR(1),
-        VOTER_ID(2),
-        DRIVING_LICENSE(3),
-        PAN_CARD(4);
-        private int kycType;
-
-        KycType(int kycType) {
-            this.kycType = kycType;
-        }
-
-        public int getUrl() {
-            return kycType;
-        }
+        AADHAR,
+        VOTER_ID,
+        DRIVING_LICENSE,
+        PAN_CARD;
     }
 }

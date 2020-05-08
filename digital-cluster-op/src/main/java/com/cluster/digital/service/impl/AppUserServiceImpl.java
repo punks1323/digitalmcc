@@ -5,7 +5,7 @@ import com.cluster.digital.database.entity.Role;
 import com.cluster.digital.database.repo.AppUserRepository;
 import com.cluster.digital.database.repo.RoleRepository;
 import com.cluster.digital.service.AppUserService;
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import com.cluster.digital.utils.security.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +48,7 @@ public class AppUserServiceImpl implements AppUserService {
         Optional<AppUser> byUsername = appUserRepoService.findByUsername(username);
         if (!byUsername.isPresent()) {
             Set<String> roles = new HashSet<>();
-            roles.add(MConstants.ROLE.ROLE_ADMIN);
+            roles.add(DConstants.ROLE.ROLE_ADMIN);
             List<Role> rolesForUser = roles.stream().map(roleRepoService::findByName).collect(Collectors.toList());
 
             AppUser appUser = new AppUser();
@@ -65,7 +65,7 @@ public class AppUserServiceImpl implements AppUserService {
         Optional<AppUser> byUsername = appUserRepoService.findByUsername(username);
         if (!byUsername.isPresent()) {
             Set<String> roles = new HashSet<>();
-            roles.add(MConstants.ROLE.ROLE_FE);
+            roles.add(DConstants.ROLE.ROLE_FE);
             List<Role> rolesForUser = roles.stream().map(roleRepoService::findByName).collect(Collectors.toList());
 
             AppUser appUser = new AppUser();

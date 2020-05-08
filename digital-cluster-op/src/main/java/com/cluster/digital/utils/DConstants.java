@@ -5,7 +5,7 @@ package com.cluster.digital.utils;
  * @version 1.0
  * @since 2019-06-27
  */
-public interface MConstants {
+public interface DConstants {
 
     interface ENTITY_ID {
         String PREFIX = "prefix";

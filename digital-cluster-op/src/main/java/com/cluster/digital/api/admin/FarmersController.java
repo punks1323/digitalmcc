@@ -1,6 +1,7 @@
 package com.cluster.digital.api.admin;
 
 import com.cluster.digital.model.request.FarmerDTORequest;
+import com.cluster.digital.model.request.FarmerKycUpdateRequest;
 import com.cluster.digital.model.response.FarmerDTOResponse;
 import com.cluster.digital.service.FarmerService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,12 @@ public class FarmersController {
     }
 
     @GetMapping("/{farmerId}")
-    public FarmerDTOResponse getMccdetails(@PathVariable("farmerId") String farmerId) throws Throwable {
+    public FarmerDTOResponse getFarmerDetails(@PathVariable("farmerId") String farmerId) throws Throwable {
         return farmerService.getFarmer(farmerId);
+    }
+
+    @PutMapping("/{farmerId}")
+    public FarmerDTOResponse updateKycImage(@PathVariable("farmerId") String farmerId, @Valid FarmerKycUpdateRequest farmerKycUpdateRequest) throws Throwable {
+        return farmerService.updateFarmerKyc(farmerId, farmerKycUpdateRequest);
     }
 }

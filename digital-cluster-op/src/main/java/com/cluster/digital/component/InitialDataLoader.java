@@ -3,7 +3,7 @@ package com.cluster.digital.component;
 import com.cluster.digital.database.entity.Role;
 import com.cluster.digital.database.repo.RoleRepository;
 import com.cluster.digital.service.AppUserService;
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -49,7 +49,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Transactional
     private void createUserRolesIfNotFound() {
-        List<String> allRoles = Arrays.asList(MConstants.ROLE.ROLE_ADMIN, MConstants.ROLE.ROLE_FE, MConstants.ROLE.ROLE_CSP);
+        List<String> allRoles = Arrays.asList(DConstants.ROLE.ROLE_ADMIN, DConstants.ROLE.ROLE_FE, DConstants.ROLE.ROLE_CSP);
         allRoles.forEach(s -> {
             Role role = roleRepository.findByName(s);
             if (role == null) {

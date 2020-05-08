@@ -2,7 +2,7 @@ package com.cluster.digital.database.entity;
 
 import com.cluster.digital.constants.KycConstants;
 import com.cluster.digital.model.response.CspDTOResponse;
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -28,7 +28,7 @@ public class Csp extends Auditable<String> {
     @Id
     @GeneratedValue(generator = ID_GENERATOR)
     @GenericGenerator(name = ID_GENERATOR,
-            parameters = {@Parameter(name = MConstants.ENTITY_ID.PREFIX, value = PREFIX), @Parameter(name = MConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = LEAD_COUNT)},
+            parameters = {@Parameter(name = DConstants.ENTITY_ID.PREFIX, value = PREFIX), @Parameter(name = DConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = LEAD_COUNT)},
             strategy = GENERATOR_PACKAGE)
     private String id;
 
@@ -43,7 +43,7 @@ public class Csp extends Auditable<String> {
     @ManyToOne
     private Mcc mcc;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private KycConstants.KycType kycType;
     private String kycNumber;
     private String kycImage;

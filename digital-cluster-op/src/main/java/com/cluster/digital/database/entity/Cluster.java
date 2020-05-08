@@ -1,7 +1,7 @@
 package com.cluster.digital.database.entity;
 
 import com.cluster.digital.model.response.ClusterDTOResponse;
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -29,7 +29,7 @@ public class Cluster extends Auditable<String> {
     @Id
     @GeneratedValue(generator = ORG_ID_GENERATOR)
     @GenericGenerator(name = ORG_ID_GENERATOR,
-            parameters = {@Parameter(name = MConstants.ENTITY_ID.PREFIX, value = ORG_ID_PREFIX), @Parameter(name = MConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = ORG_ID_LEAD_COUNT)},
+            parameters = {@Parameter(name = DConstants.ENTITY_ID.PREFIX, value = ORG_ID_PREFIX), @Parameter(name = DConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = ORG_ID_LEAD_COUNT)},
             strategy = ORG_ID_GENERATOR_PACKAGE)
     private String id;
 

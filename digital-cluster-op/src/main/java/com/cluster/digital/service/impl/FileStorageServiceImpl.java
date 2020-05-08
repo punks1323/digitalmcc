@@ -1,5 +1,6 @@
 package com.cluster.digital.service.impl;
 
+import com.cluster.digital.exception.ImageDoesNotExistException;
 import com.cluster.digital.service.FileStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -21,20 +22,26 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileStorageServiceImpl implements FileStorageService {
 
+    String uploadRootDir;
+
+    public FileStorageServiceImpl(String uploadRootDir) {
+        this.uploadRootDir = uploadRootDir;
+    }
+
     @Override
-    public String saveFile(ImageType imageType, MultipartFile file, String primaryKey) {
+    public String saveFile(ImageType imageType, MultipartFile file, String id) {
         try {
             if (file.isEmpty() || file.getOriginalFilename() == null || !file.getOriginalFilename().contains("."))
                 return null;
 
-            File uploadDir = new File(System.getProperty("user.dir") + File.separator + "uploads" + File.separator + imageType.name());
-            String fileName = primaryKey + file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
+            File uploadDir = new File(uploadRootDir, imageType.name());
+            String fileName = id + file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
             String downloadUri = File.separator + "image" + File.separator + imageType.name() + File.separator + fileName;
 
             File uploadFileLocation = new File(uploadDir, fileName);
 
             if (!uploadDir.exists()) {
-                System.out.println("Dir created: " + uploadDir.mkdirs());
+                log.info("Dir created: " + uploadDir.mkdirs());
             }
 
             Path path = Paths.get(uploadFileLocation.getCanonicalPath());
@@ -50,16 +57,35 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Resource readFile(HttpServletRequest request, ImageType imageType, String fileName) {
-
+    public Resource readFile(HttpServletRequest request, ImageType imageType, String fileName) throws ImageDoesNotExistException {
+        Resource resource = null;
         try {
-            File uploadDir = new File(System.getProperty("user.dir") + File.separator + "uploads" + File.separator + imageType.name());
+            File uploadDir = new File(uploadRootDir, imageType.name());
             Path fileStorageLocation = Paths.get(uploadDir.getCanonicalPath());
             Path filePath = fileStorageLocation.resolve(fileName).normalize();
-            return new UrlResource(filePath.toUri());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            resource = new UrlResource(filePath.toUri());
+        } catch (Exception e) {
+            log.warn("Failed to read uploaded file", e);
         }
-        return null;
+
+        if (resource != null && resource.exists()) {
+            return resource;
+        } else {
+            throw new ImageDoesNotExistException("File not found imageType: " + imageType + " fileName: " + fileName);
+        }
+    }
+
+    @Override
+    public Boolean deleteFile(ImageType imageType, String fileName) throws ImageDoesNotExistException {
+        try {
+            File uploadDir = new File(uploadRootDir, imageType.name());
+            Path fileStorageLocation = Paths.get(uploadDir.getCanonicalPath());
+            Path filePath = fileStorageLocation.resolve(fileName).normalize();
+            Files.delete(filePath);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            log.warn("Failed to delete uploaded file", e);
+        }
+        return Boolean.FALSE;
     }
 }

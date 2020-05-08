@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1.0
  * @since 2020-05-03
  */
-public interface DairyService {
+public interface DairyService extends BaseInterface{
     DairyDTOResponse createNewDairy(DairyDTORequest dairyDTORequest) throws Throwable;
 
     List<DairyDTOResponse> getAllDairies(String query);

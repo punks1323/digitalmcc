@@ -26,6 +26,11 @@ public class ClusterController {
         return clusterService.getAllClusters(query);
     }
 
+    @GetMapping("/{clusterId}")
+    public ClusterDTOResponse getCluster(@PathVariable("clusterId") String clusterId) throws Throwable {
+        return clusterService.getCluster(clusterId);
+    }
+
     @PostMapping
     public ClusterDTOResponse createCluster(@Valid @RequestBody ClusterDTORequest clusterDTORequest) {
         return clusterService.createNewCluster(clusterDTORequest);

@@ -1,6 +1,6 @@
 package com.cluster.digital.database.entity;
 
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +28,7 @@ public class AppUser extends Auditable<String> implements UserDetails {
     @Id
     @GeneratedValue(generator = USER_ID_GENERATOR)
     @GenericGenerator(name = USER_ID_GENERATOR,
-            parameters = {@org.hibernate.annotations.Parameter(name = MConstants.ENTITY_ID.PREFIX, value = USER_ID_PREFIX), @org.hibernate.annotations.Parameter(name = MConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = USER_ID_LEAD_COUNT)},
+            parameters = {@org.hibernate.annotations.Parameter(name = DConstants.ENTITY_ID.PREFIX, value = USER_ID_PREFIX), @org.hibernate.annotations.Parameter(name = DConstants.ENTITY_ID.LEAD_ZERO_COUNT, value = USER_ID_LEAD_COUNT)},
             strategy = USER_ID_GENERATOR_PACKAGE)
     private String id;
 

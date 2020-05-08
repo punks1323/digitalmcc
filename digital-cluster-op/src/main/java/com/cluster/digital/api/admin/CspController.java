@@ -5,6 +5,7 @@ import com.cluster.digital.model.response.CspDTOResponse;
 import com.cluster.digital.service.CspService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,5 +36,10 @@ public class CspController {
     @GetMapping("/{cspId}")
     public CspDTOResponse getCsp(@PathVariable("cspId") String cspId) throws Throwable {
         return cspService.getCsp(cspId);
+    }
+
+    @PutMapping("/{cspId}")
+    public CspDTOResponse updateKycImage(@PathVariable("cspId") String cspId, @RequestParam(value = "kycImage", required = false) MultipartFile kycImage, @RequestParam(value = "cspImage", required = false) MultipartFile cspImage) throws Throwable {
+        return cspService.updateImagesForCsp(cspId, kycImage,cspImage);
     }
 }

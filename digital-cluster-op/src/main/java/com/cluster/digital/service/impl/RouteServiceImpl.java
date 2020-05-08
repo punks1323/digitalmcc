@@ -3,18 +3,16 @@ package com.cluster.digital.service.impl;
 import com.cluster.digital.database.entity.Dairy;
 import com.cluster.digital.database.entity.Mcc;
 import com.cluster.digital.database.entity.Route;
-import com.cluster.digital.exception.NotFoundException;
-import com.cluster.digital.model.request.RouteDTORequest;
-import com.cluster.digital.model.response.RouteDTOResponse;
 import com.cluster.digital.database.repo.DairyRepository;
 import com.cluster.digital.database.repo.MccRepository;
 import com.cluster.digital.database.repo.RouteRepository;
+import com.cluster.digital.exception.AllIdDoesNotFoundException;
+import com.cluster.digital.model.request.RouteDTORequest;
+import com.cluster.digital.model.response.RouteDTOResponse;
 import com.cluster.digital.service.RouteService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -23,9 +21,9 @@ import java.util.stream.Collectors;
  * @since 2020-05-04
  */
 public class RouteServiceImpl implements RouteService {
-    private RouteRepository routeRepository;
-    private DairyRepository dairyRepository;
-    private MccRepository mccRepository;
+    private final RouteRepository routeRepository;
+    private final DairyRepository dairyRepository;
+    private final MccRepository mccRepository;
 
     public RouteServiceImpl(RouteRepository routeRepository, DairyRepository dairyRepository, MccRepository mccRepository) {
         this.routeRepository = routeRepository;
@@ -36,20 +34,19 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public RouteDTOResponse createNewRoute(RouteDTORequest routeDTORequest) throws Throwable {
         // validate dairy id
-        Optional<Dairy> dairyOptional = dairyRepository.findById(routeDTORequest.getDairyId());
-        dairyOptional.orElseThrow((Supplier<Throwable>) () -> new NotFoundException("Dairy with id " + routeDTORequest.getDairyId() + " does not exists."));
+        Dairy dairy = check4DairyExistence(dairyRepository, routeDTORequest.getDairyId());
 
         // validate mcc ids
         Collection<String> mccIds = routeDTORequest.getMccIds();
         List<Mcc> mccList = mccRepository.findByIdIn(mccIds);
         if (mccList.size() != mccIds.size())
-            throw new NotFoundException("Some mcc ids not found in database");
+            throw new AllIdDoesNotFoundException("Some mcc ids not found in database: " + mccList);
 
         Route route = new Route();
         route.setName(routeDTORequest.getName());
         route.setDistrict(routeDTORequest.getDistrict());
         route.setState(routeDTORequest.getState());
-        route.setDairy(dairyOptional.get());
+        route.setDairy(dairy);
         route.setMccs(mccList);
         return routeRepository.save(route).getResponseDTO();
     }
@@ -63,27 +60,19 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public RouteDTOResponse addMccToRoutes(String dairyId, List<String> mccIds) throws Throwable {
-        Optional<Route> routeOptional = routeRepository.findById(dairyId);
-        routeOptional.orElseThrow((Supplier<Throwable>) () -> new NotFoundException("Route with id " + dairyId + " does not exists."));
+    public RouteDTOResponse addMccToRoutes(String routeId, List<String> mccIds) throws Throwable {
 
         Collection<Mcc> mccList = mccRepository.findByIdIn(mccIds);
         if (mccList.size() != mccIds.size())
-            throw new NotFoundException("Some mcc ids not found in database");
-        Route route = routeOptional.get();
+            throw new AllIdDoesNotFoundException("Some mcc ids not found in database: " + mccIds);
+
+        Route route = check4RouteExistence(routeRepository, routeId);
         route.getMccs().addAll(mccList);
         return routeRepository.save(route).getResponseDTO();
     }
 
     @Override
     public RouteDTOResponse getRoute(String routeId) throws Throwable {
-        Optional<Route> routeOptional = routeRepository.findById(routeId);
-        routeOptional.orElseThrow(new Supplier<Throwable>() {
-            @Override
-            public Throwable get() {
-                return new NotFoundException("No route found with given routeId: " + routeId);
-            }
-        });
-        return routeOptional.get().getResponseDTO();
+        return check4RouteExistence(routeRepository, routeId).getResponseDTO();
     }
 }

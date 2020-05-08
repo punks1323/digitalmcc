@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.io.File;
+
 /**
  * @author pankaj
  * @version 1.0
@@ -53,11 +55,12 @@ public class ServiceConfig {
 
     @Bean
     public FileStorageService fileStorageService() {
-        return new FileStorageServiceImpl();
+        return new FileStorageServiceImpl(System.getProperty("user.dir") + File.separator + "uploads");
     }
 
     @Bean
     public FarmerService farmerService(MccRepository mccRepository, FarmerRepository farmerRepository, FileStorageService fileStorageService) {
         return new FarmerServiceImpl(mccRepository, farmerRepository, fileStorageService);
     }
+
 }

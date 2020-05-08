@@ -1,6 +1,6 @@
 package com.cluster.digital.database.entity.id_generators;
 
-import com.cluster.digital.utils.MConstants;
+import com.cluster.digital.utils.DConstants;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -49,7 +49,7 @@ public class ApplicationIdGenerator
     @Override
     public void configure(Type type, Properties properties,
                           ServiceRegistry serviceRegistry) throws MappingException {
-        prefix = properties.getProperty(MConstants.ENTITY_ID.PREFIX);
-        leadCount = properties.getProperty(MConstants.ENTITY_ID.LEAD_ZERO_COUNT);
+        prefix = properties.getProperty(DConstants.ENTITY_ID.PREFIX);
+        leadCount = properties.getProperty(DConstants.ENTITY_ID.LEAD_ZERO_COUNT);
     }
 }
