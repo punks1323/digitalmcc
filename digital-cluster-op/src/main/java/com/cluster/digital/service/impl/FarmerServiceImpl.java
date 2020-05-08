@@ -52,7 +52,8 @@ public class FarmerServiceImpl implements FarmerService {
         farmer.setMcc(mcc);
 
         Farmer savedFarmer = farmerRepository.save(farmer);
-        String farmerKycImgLocation = fileStorageService.saveFile(FileStorageService.ImageType.FARMER, request.getKycImage(), savedFarmer.getId());
+        String farmerKycImgLocation = fileStorageService.saveFile(FileStorageService.ImageType.FARMER_KYC, request.getKycImage(), savedFarmer.getId());
+        log.info("Farmer {} new farmer kyc image received.", savedFarmer.getId());
         savedFarmer.setKycImage(farmerKycImgLocation);
         return farmerRepository.save(savedFarmer).getResponseDTO();
     }
@@ -80,12 +81,13 @@ public class FarmerServiceImpl implements FarmerService {
             if (savedFarmer.getKycImage() != null && savedFarmer.getKycImage().length() > 0) {
                 String[] split = savedFarmer.getKycImage().split("/");
                 String fileName = split[split.length - 1];
-                Boolean deleteResult = fileStorageService.deleteFile(FileStorageService.ImageType.FARMER, fileName);
-                log.info("Old csp kyc image deleted: " + deleteResult);
+                Boolean deleteResult = fileStorageService.deleteFile(FileStorageService.ImageType.FARMER_KYC, fileName);
+                log.info("Old csp kyc image deleted: {} for farmerId: {}", deleteResult, farmerId);
             }
 
             // save new farmer image
-            String kycImageLocation = fileStorageService.saveFile(FileStorageService.ImageType.FARMER, kycUpdateRequest.getKycImage(), savedFarmer.getId());
+            String kycImageLocation = fileStorageService.saveFile(FileStorageService.ImageType.FARMER_KYC, kycUpdateRequest.getKycImage(), savedFarmer.getId());
+            log.info("Farmer {} farmer kyc image updated.", savedFarmer.getId());
             savedFarmer.setKycImage(kycImageLocation);
         }
 

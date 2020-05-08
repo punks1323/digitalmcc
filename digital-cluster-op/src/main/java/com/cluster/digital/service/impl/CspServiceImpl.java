@@ -45,17 +45,19 @@ public class CspServiceImpl implements CspService {
         csp.setMobileNumber(request.getMobileNumber());
         csp.setMcc(mcc);
 
-        Csp saveCsp = cspRepository.save(csp);
+        Csp savedCsp = cspRepository.save(csp);
 
         // save csp image
-        String imageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP, request.getCspImage(), saveCsp.getId());
-        saveCsp.setCspImage(imageUri);
+        String imageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP, request.getCspImage(), savedCsp.getId());
+        log.info("Csp {} new csp image received.", savedCsp.getId());
+        savedCsp.setCspImage(imageUri);
 
         // save kyc image
-        String kycImageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP_KYC, request.getKycImage(), saveCsp.getId());
-        saveCsp.setKycImage(kycImageUri);
+        String kycImageUri = fileStorageService.saveFile(FileStorageService.ImageType.CSP_KYC, request.getKycImage(), savedCsp.getId());
+        log.info("Csp {} kyc new kyc image received.", savedCsp.getId());
+        savedCsp.setKycImage(kycImageUri);
 
-        return cspRepository.save(saveCsp).getResponseDTO();
+        return cspRepository.save(savedCsp).getResponseDTO();
     }
 
     @Override
@@ -79,11 +81,12 @@ public class CspServiceImpl implements CspService {
                 String[] split = savedCsp.getKycImage().split("/");
                 String fileName = split[split.length - 1];
                 Boolean deleteResult = fileStorageService.deleteFile(FileStorageService.ImageType.CSP_KYC, fileName);
-                log.info("Old csp kyc image deleted: " + deleteResult);
+                log.info("Old csp kyc image deleted: {} for cspId: {}", deleteResult, cspId);
             }
 
             // save new csp kyc image
             String kycImageLocation = fileStorageService.saveFile(FileStorageService.ImageType.CSP_KYC, kycImage, savedCsp.getId());
+            log.info("Csp {} csp kyc image updated.", savedCsp.getId());
             savedCsp.setKycImage(kycImageLocation);
         }
         if (cspImage != null && !cspImage.isEmpty()) {
@@ -92,11 +95,12 @@ public class CspServiceImpl implements CspService {
                 String[] split = savedCsp.getCspImage().split("/");
                 String fileName = split[split.length - 1];
                 Boolean deleteResult = fileStorageService.deleteFile(FileStorageService.ImageType.CSP, fileName);
-                log.info("Old csp image deleted: " + deleteResult);
+                log.info("Old csp image deleted: {} for cspId: {}", deleteResult, cspId);
             }
 
             // save new csp image
             String cspImageLocation = fileStorageService.saveFile(FileStorageService.ImageType.CSP, cspImage, savedCsp.getId());
+            log.info("Csp {} csp image updated.", savedCsp.getId());
             savedCsp.setCspImage(cspImageLocation);
         }
 

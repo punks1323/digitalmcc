@@ -48,6 +48,7 @@ public class MccServiceImpl implements MccService {
         Mcc savedMcc = mccRepository.save(mcc);
         if (mccDTORequest.getMccImage() != null && !mccDTORequest.getMccImage().isEmpty()) {
             String fileDownloadUri = fileStorageService.saveFile(FileStorageService.ImageType.MCC, mccDTORequest.getMccImage(), savedMcc.getId());
+            log.info("Mcc {} new mcc image received.", savedMcc.getId());
             mcc.setImage(fileDownloadUri);
             savedMcc = mccRepository.save(mcc);
         }
@@ -77,10 +78,11 @@ public class MccServiceImpl implements MccService {
             String[] split = savedMcc.getImage().split("/");
             String fileName = split[split.length - 1];
             Boolean deleteResult = fileStorageService.deleteFile(FileStorageService.ImageType.MCC, fileName);
-            log.info("Old mcc image deleted: " + deleteResult);
+            log.info("Old mcc image deleted: {} for mcc: {}", deleteResult, savedMcc.getId());
         }
         // save nrw mcc image
-        String uploadedFileLocation = fileStorageService.saveFile(FileStorageService.ImageType.MCC, multipartFile, mccId);
+        String uploadedFileLocation = fileStorageService.saveFile(FileStorageService.ImageType.MCC, multipartFile, savedMcc.getId());
+        log.info("Mcc {} mcc image updated.", savedMcc.getId());
         savedMcc.setImage(uploadedFileLocation);
         return mccRepository.save(savedMcc).getResponseDTO();
     }
