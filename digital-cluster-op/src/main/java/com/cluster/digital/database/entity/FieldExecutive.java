@@ -1,5 +1,6 @@
 package com.cluster.digital.database.entity;
 
+import com.cluster.digital.model.response.FieldExecutiveDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,13 +31,21 @@ public class FieldExecutive extends Auditable<String> {
             strategy = GENERATOR_PACKAGE)
     private String id;
 
-    @Column(unique = true)
     private String name;
 
     @Pattern(regexp = "^[6-9]\\d{9}$")
+    @Column(unique = true)
     private String mobile;
 
     @OneToOne
     private Route route;
 
+    public FieldExecutiveDTOResponse getResponseDTO() {
+        FieldExecutiveDTOResponse response = new FieldExecutiveDTOResponse();
+        response.setId(this.getId());
+        response.setName(this.getName());
+        response.setMobile(this.getMobile());
+        response.setRouteId(this.getRoute().getId());
+        return response;
+    }
 }

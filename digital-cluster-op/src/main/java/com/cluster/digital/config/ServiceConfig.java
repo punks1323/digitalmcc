@@ -63,4 +63,9 @@ public class ServiceConfig {
         return new FarmerServiceImpl(mccRepository, farmerRepository, fileStorageService);
     }
 
+    @Bean
+    public FieldExecutiveService fieldExecutiveService(FieldExecutiveRepository fieldExecutiveRepository, RouteRepository routeRepository) {
+        return new FieldExecutiveServiceImpl(fieldExecutiveRepository, routeRepository);
+    }
+
 }

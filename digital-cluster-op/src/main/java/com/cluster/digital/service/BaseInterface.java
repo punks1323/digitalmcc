@@ -36,7 +36,7 @@ public interface BaseInterface {
         return farmerRepository.findById(farmerId).orElseThrow((Supplier<Throwable>) () -> new IdDoesNotExistsException("No farmer found with id: " + farmerId));
     }
 
-    /*default FieldExecutive check4FieldExecutiveExistence(FieldEx farmerRepository, String farmerId) throws Throwable {
-        return farmerRepository.findById(farmerId).orElseThrow((Supplier<Throwable>) () -> new NotFoundException("No farmer found with id: " + farmerId));
-    }*/
+    default FieldExecutive check4FieldExecutiveExistence(FieldExecutiveRepository fieldExecutiveRepository, String fieldExecutiveId) throws Throwable {
+        return fieldExecutiveRepository.findById(fieldExecutiveId).orElseThrow((Supplier<Throwable>) () -> new IdDoesNotExistsException("No field executive found with id: " + fieldExecutiveId));
+    }
 }
