@@ -2,8 +2,7 @@ package com.cluster.digital.component;
 
 import com.cluster.digital.model.response.LoginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -32,9 +31,8 @@ import java.util.stream.Collectors;
  * @since 2019-06-27
  */
 @Component
+@Slf4j
 public class RESTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
-    Logger log = LoggerFactory.getLogger(RESTAuthenticationSuccessHandler.class);
 
     @Autowired
     ObjectMapper objectMapper;

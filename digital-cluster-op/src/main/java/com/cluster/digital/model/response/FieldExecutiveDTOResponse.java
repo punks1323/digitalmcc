@@ -13,4 +13,6 @@ public class FieldExecutiveDTOResponse {
     private String name;
     private String mobile;
     private String routeId;
+    private String dairyId;
+    private String clusterId;
 }

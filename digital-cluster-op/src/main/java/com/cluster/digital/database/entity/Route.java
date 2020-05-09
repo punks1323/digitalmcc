@@ -44,13 +44,14 @@ public class Route extends Auditable<String> {
     private List<Mcc> mccs;
 
     public RouteDTOResponse getResponseDTO() {
-        RouteDTOResponse routeDTOResponse = new RouteDTOResponse();
-        routeDTOResponse.setId(this.getId());
-        routeDTOResponse.setName(this.getName());
-        routeDTOResponse.setDistrict(this.getDistrict());
-        routeDTOResponse.setState(this.getState());
-        routeDTOResponse.setDairyId(this.getDairy().getId());
-        routeDTOResponse.setMccList(this.getMccs().stream().map(Mcc::getId).collect(Collectors.toList()));
-        return routeDTOResponse;
+        RouteDTOResponse response = new RouteDTOResponse();
+        response.setId(this.getId());
+        response.setName(this.getName());
+        response.setDistrict(this.getDistrict());
+        response.setState(this.getState());
+        response.setMccList(this.getMccs().stream().map(Mcc::getId).collect(Collectors.toList()));
+        response.setDairyId(this.getDairy().getId());
+        response.setClusterId(this.getDairy().getCluster().getId());
+        return response;
     }
 }

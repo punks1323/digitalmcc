@@ -43,17 +43,19 @@ public class Mcc extends Auditable<String> {
     private String image;
 
     public MccDTOResponse getResponseDTO() {
-        MccDTOResponse mccDTOResponse = new MccDTOResponse();
-        mccDTOResponse.setId(this.getId());
-        mccDTOResponse.setName(this.getName());
-        mccDTOResponse.setAddress(this.getAddress());
-        mccDTOResponse.setPincode(this.getPincode());
-        mccDTOResponse.setVillage(this.getVillage());
-        mccDTOResponse.setTaluk(this.getTaluk());
-        mccDTOResponse.setLatitude(this.getLatitude());
-        mccDTOResponse.setLongitude(this.getLongitude());
-        mccDTOResponse.setImage(this.getImage());
-        mccDTOResponse.setRouteId(this.getRoute().getId());
-        return mccDTOResponse;
+        MccDTOResponse response = new MccDTOResponse();
+        response.setId(this.getId());
+        response.setName(this.getName());
+        response.setAddress(this.getAddress());
+        response.setPincode(this.getPincode());
+        response.setVillage(this.getVillage());
+        response.setTaluk(this.getTaluk());
+        response.setLatitude(this.getLatitude());
+        response.setLongitude(this.getLongitude());
+        response.setImage(this.getImage());
+        response.setRouteId(this.getRoute().getId());
+        response.setDairyId(this.getRoute().getDairy().getId());
+        response.setClusterId(this.getRoute().getDairy().getCluster().getId());
+        return response;
     }
 }

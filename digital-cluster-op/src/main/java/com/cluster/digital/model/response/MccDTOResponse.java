@@ -19,4 +19,6 @@ public class MccDTOResponse {
     private Double latitude;
     private Double longitude;
     private String routeId;
+    private String dairyId;
+    private String clusterId;
 }

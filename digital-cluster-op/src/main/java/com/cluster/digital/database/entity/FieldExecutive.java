@@ -46,6 +46,8 @@ public class FieldExecutive extends Auditable<String> {
         response.setName(this.getName());
         response.setMobile(this.getMobile());
         response.setRouteId(this.getRoute().getId());
+        response.setDairyId(this.getRoute().getDairy().getId());
+        response.setClusterId(this.getRoute().getDairy().getCluster().getId());
         return response;
     }
 }

@@ -1,7 +1,6 @@
 package com.cluster.digital.component;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -19,15 +18,15 @@ import java.io.IOException;
  * @since 2019-06-27
  */
 @Component
+@Slf4j
 public class RESTLogoutSuccessHandler implements LogoutSuccessHandler {
-    Logger logger = LoggerFactory.getLogger(RESTLogoutSuccessHandler.class);
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request,
                                 HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         if (authentication != null) {
-            logger.info("LOGGED OUT : " + authentication.getName());
+            log.info("LOGGED OUT : " + authentication.getName());
         }
         //perform other required operation
         response.setStatus(HttpStatus.OK.value());

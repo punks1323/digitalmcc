@@ -2,8 +2,7 @@ package com.cluster.digital.exception.globalexceptionhandling;
 
 import com.cluster.digital.exception.IdDoesNotExistsException;
 import com.cluster.digital.model.response.ErrorDetails;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,34 +27,33 @@ import java.util.List;
  */
 @ControllerAdvice
 @RestController
+@Slf4j
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private final Logger logger = LoggerFactory.getLogger(CustomizedResponseEntityExceptionHandler.class);
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("{} {}", e.getMessage(), e);
+        log.error("{} {}", e.getMessage(), e);
         List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
         List<String> errorList = new ArrayList<String>();
         for (ObjectError o : allErrors) {
             errorList.add(o.getDefaultMessage());
         }
         ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", errorList.toString());
-        return new ResponseEntity<Object>(errorDetails, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public final ResponseEntity<ErrorDetails> handleUniqueException(Exception e, WebRequest request) {
-        logger.error("{} {}", e.getMessage(), e);
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), "Duplicate entry",
+        log.error("{} {}", e.getMessage(), e);
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "Duplicate entry, data is not unique.",
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IdDoesNotExistsException.class)
     public final ResponseEntity<ErrorDetails> handleNotFoundException(Exception e, WebRequest request) {
-        logger.error("{} {}", e.getMessage(), e);
+        log.error("{} {}", e.getMessage(), e);
         ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
@@ -63,7 +61,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ErrorDetails> handleRootException(Exception e, WebRequest request) {
-        logger.error("{} {}", e.getMessage(), e);
+        log.error("{} {}", e.getMessage(), e);
         ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
