@@ -32,12 +32,12 @@ public class RouteController {
     }
 
     @PostMapping
-    public RouteDTOResponse createNewRoute(@Valid @RequestBody RouteDTORequest routeDTORequest) throws Throwable {
+    public List<RouteDTOResponse> createNewRoute(@Valid @RequestBody RouteDTORequest routeDTORequest) throws Throwable {
         return routeService.createNewRoute(routeDTORequest);
     }
 
     @PatchMapping("/{routeId}")
-    public RouteDTOResponse addRoutesToDairy(@PathVariable("routeId") String routeId, @RequestBody List<String> mccIds) throws Throwable {
-        return routeService.addMccToRoutes(routeId, mccIds);
+    public List<RouteDTOResponse> addRoutesToDairy(@PathVariable("routeId") String routeId, @RequestBody RouteDTORequest routeDTORequest) throws Throwable {
+        return routeService.updateRoute(routeId, routeDTORequest);
     }
 }

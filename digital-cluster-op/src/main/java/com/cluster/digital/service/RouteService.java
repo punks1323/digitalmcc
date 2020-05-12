@@ -11,11 +11,11 @@ import java.util.List;
  * @since 2020-05-04
  */
 public interface RouteService extends BaseInterface {
-    RouteDTOResponse createNewRoute(RouteDTORequest routeDTORequest) throws Throwable;
+    List<RouteDTOResponse> createNewRoute(RouteDTORequest routeDTORequest) throws Throwable;
 
     List<RouteDTOResponse> getAllRoutes(String query);
 
-    RouteDTOResponse addMccToRoutes(String dairyId, List<String> mccIds) throws Throwable;
+    List<RouteDTOResponse> updateRoute(String dairyId, RouteDTORequest routeDTORequest) throws Throwable;
 
     RouteDTOResponse getRoute(String routeId) throws Throwable;
 }

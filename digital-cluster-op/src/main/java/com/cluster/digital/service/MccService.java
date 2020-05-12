@@ -11,12 +11,13 @@ import java.util.List;
  * @version 1.0
  * @since 2020-05-05
  */
-public interface MccService extends BaseInterface{
-    MccDTOResponse createNewMcc(MccDTORequest mccDTORequest) throws Throwable;
+public interface MccService extends BaseInterface {
+    List<MccDTOResponse> createNewMcc(MccDTORequest mccDTORequest) throws Throwable;
 
-    MccDTOResponse getMcc(String mccId) throws Throwable;
+    List<MccDTOResponse> getMcc(String mccId) throws Throwable;
 
     List<MccDTOResponse> getAllMcc(String query);
 
-    MccDTOResponse updateImage(String mccId, MultipartFile multipartFile) throws Throwable;
+    List<MccDTOResponse> updateImage(String mccId, MultipartFile multipartFile) throws Throwable;
+
 }

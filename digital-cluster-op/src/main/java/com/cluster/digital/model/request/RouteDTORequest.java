@@ -18,6 +18,5 @@ public class RouteDTORequest {
     @NotBlank(message = "Dairy id must not be empty")
     private String dairyId;
     private Collection<String> mccIds = new ArrayList<>();
-    private String district;
-    private String state;
+    private String fieldExecutiveId;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author pankaj
@@ -15,9 +16,8 @@ import java.util.Collection;
 public class DairyDTORequest {
     @NotBlank(message = "Dairy name must not be empty")
     private String name;
-    @NotBlank(message = "Dairy cluster name can not be empty")
     private String clusterId;
     private String district;
     private String state;
-    private Collection<String> routeIds = new ArrayList<>();
+    private List<String> routeIds;
 }

@@ -3,6 +3,7 @@ package com.cluster.digital.database.entity;
 import com.cluster.digital.model.response.ClusterDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -18,8 +19,8 @@ import java.util.stream.Collectors;
  * @since 2019-06-27
  */
 @Entity
-@Table
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Cluster extends Auditable<String> {
 
     private static final String ORG_ID_GENERATOR = "cluster-id-generator";
@@ -33,13 +34,9 @@ public class Cluster extends Auditable<String> {
             strategy = ORG_ID_GENERATOR_PACKAGE)
     private String id;
 
-    @Column(unique = true)
     private String name;
     private String district;
     private String state;
-
-    @OneToMany(mappedBy = "cluster")
-    private Collection<Dairy> dairies = new ArrayList<>();
 
     public ClusterDTOResponse getResponseDTO() {
         ClusterDTOResponse clusterDTOResponse = new ClusterDTOResponse();
@@ -47,7 +44,6 @@ public class Cluster extends Auditable<String> {
         clusterDTOResponse.setName(this.getName());
         clusterDTOResponse.setDistrict(this.getDistrict());
         clusterDTOResponse.setState(this.getState());
-        clusterDTOResponse.setDairies(dairies.stream().map(Dairy::getId).collect(Collectors.toList()));
         return clusterDTOResponse;
     }
 }

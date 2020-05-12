@@ -21,4 +21,5 @@ public class MccDTOResponse {
     private String routeId;
     private String dairyId;
     private String clusterId;
+    private String cspId;
 }

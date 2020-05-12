@@ -14,8 +14,6 @@ public interface DConstants {
 
     interface ROLE {
         String ROLE_ADMIN = "ROLE_ADMIN";
-        String ROLE_FE = "ROLE_FE";
-        String ROLE_CSP = "ROLE_CSP";
     }
 
 }

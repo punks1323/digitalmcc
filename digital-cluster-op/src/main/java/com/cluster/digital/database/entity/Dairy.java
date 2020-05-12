@@ -3,12 +3,14 @@ package com.cluster.digital.database.entity;
 import com.cluster.digital.model.response.DairyDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 /**
@@ -17,8 +19,8 @@ import java.util.stream.Collectors;
  * @since 2019-06-27
  */
 @Entity
-@Table
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Dairy extends Auditable<String> {
 
     private static final String GENERATOR = "dairy-id-generator";
@@ -32,18 +34,13 @@ public class Dairy extends Auditable<String> {
             strategy = GENERATOR_PACKAGE)
     private String id;
 
-    @Column(unique = true)
     private String name;
+
+    private String district;
+    private String state;
 
     @ManyToOne
     private Cluster cluster;
-
-    @OneToMany(mappedBy = "dairy")
-    private List<Route> routes;
-
-    private String district;
-
-    private String state;
 
     public DairyDTOResponse getResponseDTO() {
         DairyDTOResponse dairyDTOResponse = new DairyDTOResponse();
@@ -51,8 +48,7 @@ public class Dairy extends Auditable<String> {
         dairyDTOResponse.setName(this.getName());
         dairyDTOResponse.setDistrict(this.getDistrict());
         dairyDTOResponse.setState(this.getState());
-        dairyDTOResponse.setClusterId(this.getCluster().getId());
-        dairyDTOResponse.setRoutes(this.getRoutes().stream().map(Route::getId).collect(Collectors.toList()));
+        dairyDTOResponse.setClusterId(this.getCluster() != null ? this.getCluster().getId() : null);
         return dairyDTOResponse;
     }
 }

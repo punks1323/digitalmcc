@@ -27,12 +27,12 @@ public class FieldExecutiveController {
     }
 
     @GetMapping("/{fieldExecutiveId}")
-    public FieldExecutiveDTOResponse getFieldExecutive(@PathVariable("fieldExecutiveId") String fieldExecutiveId) throws Throwable {
+    public List<FieldExecutiveDTOResponse> getFieldExecutive(@PathVariable("fieldExecutiveId") String fieldExecutiveId) throws Throwable {
         return fieldExecutiveService.getFieldExecutive(fieldExecutiveId);
     }
 
     @PostMapping
-    public FieldExecutiveDTOResponse createFieldExecutive(@Valid @RequestBody FieldExecutiveDTORequest fieldExecutiveDTORequest) throws Throwable {
+    public List<FieldExecutiveDTOResponse> createFieldExecutive(@Valid @RequestBody FieldExecutiveDTORequest fieldExecutiveDTORequest) throws Throwable {
         return fieldExecutiveService.createNewFieldExecutive(fieldExecutiveDTORequest);
     }
 }

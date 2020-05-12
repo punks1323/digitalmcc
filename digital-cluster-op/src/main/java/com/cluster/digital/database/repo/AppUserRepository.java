@@ -20,5 +20,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, String> {
     Optional<AppUser> findByUsername(String username);
 
     @Query("SELECT u.username FROM AppUser u where u.id = :id")
-    String findUsernameByUserId(@Param("id") String id);
+    String findUsernameById(@Param("id") String id);
 }

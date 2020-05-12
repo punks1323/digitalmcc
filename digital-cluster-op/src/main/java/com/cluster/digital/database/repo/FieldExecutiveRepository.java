@@ -4,7 +4,6 @@ import com.cluster.digital.database.entity.FieldExecutive;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,7 +13,5 @@ import java.util.List;
  */
 @Repository
 public interface FieldExecutiveRepository extends JpaRepository<FieldExecutive, String> {
-    List<FieldExecutive> findByIdIn(Collection<String> ids);
-
     List<FieldExecutive> findByNameIgnoreCaseContainingOrMobileIgnoreCaseContaining(String name, String mobile);
 }

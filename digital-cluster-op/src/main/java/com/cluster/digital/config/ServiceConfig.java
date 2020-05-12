@@ -24,13 +24,13 @@ public class ServiceConfig {
     }
 
     @Bean
-    public AppUserService appUserService(AppUserRepository appUserRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
+    public AppUserService userService(AppUserRepository appUserRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
         return new AppUserServiceImpl(appUserRepository, bCryptPasswordEncoder, roleRepository);
     }
 
     @Bean
-    public ClusterService clusterService(ClusterRepository clusterRepository) {
-        return new ClusterServiceImpl(clusterRepository);
+    public ClusterService clusterService(ClusterRepository clusterRepository, DairyRepository dairyRepository) {
+        return new ClusterServiceImpl(clusterRepository, dairyRepository);
     }
 
     @Bean
@@ -39,13 +39,13 @@ public class ServiceConfig {
     }
 
     @Bean
-    public RouteService routeService(RouteRepository routeRepository, DairyRepository dairyRepository, MccRepository mccRepository) {
-        return new RouteServiceImpl(routeRepository, dairyRepository, mccRepository);
+    public RouteService routeService(RouteRepository routeRepository, DairyRepository dairyRepository, MccRepository mccRepository, FieldExecutiveRepository fieldExecutiveRepository) {
+        return new RouteServiceImpl(routeRepository, dairyRepository, mccRepository, fieldExecutiveRepository);
     }
 
     @Bean
-    public MccService mccService(MccRepository mccRepository, RouteRepository routeRepository, FileStorageService fileStorageService) {
-        return new MccServiceImpl(mccRepository, routeRepository, fileStorageService);
+    public MccService mccService(MccRepository mccRepository, RouteRepository routeRepository, CspRepository cspRepository,FileStorageService fileStorageService) {
+        return new MccServiceImpl(mccRepository, routeRepository, cspRepository, fileStorageService);
     }
 
     @Bean

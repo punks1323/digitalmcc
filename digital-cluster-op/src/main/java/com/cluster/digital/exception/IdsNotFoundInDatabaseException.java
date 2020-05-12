@@ -5,8 +5,8 @@ package com.cluster.digital.exception;
  * @version 1.0
  * @since 2020-05-04
  */
-public class AllIdDoesNotFoundException extends RuntimeException {
-    public AllIdDoesNotFoundException(String message) {
+public class IdsNotFoundInDatabaseException extends Exception {
+    public IdsNotFoundInDatabaseException(String message) {
         super(message);
     }
 }

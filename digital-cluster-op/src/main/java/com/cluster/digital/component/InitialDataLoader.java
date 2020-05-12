@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -49,11 +50,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Transactional
     private void createUserRolesIfNotFound() {
-        List<String> allRoles = Arrays.asList(DConstants.ROLE.ROLE_ADMIN, DConstants.ROLE.ROLE_FE, DConstants.ROLE.ROLE_CSP);
+        List<String> allRoles = Collections.singletonList(DConstants.ROLE.ROLE_ADMIN);
         allRoles.forEach(s -> {
             Role role = roleRepository.findByName(s);
             if (role == null) {
-                role = new Role(s);
+                role = new Role();
+                role.setName(s);
                 roleRepository.save(role);
             }
         });

@@ -1,6 +1,9 @@
 package com.cluster.digital.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author pankaj
@@ -12,7 +15,5 @@ public class FieldExecutiveDTOResponse {
     private String id;
     private String name;
     private String mobile;
-    private String routeId;
-    private String dairyId;
-    private String clusterId;
+    private List<String> routes;
 }

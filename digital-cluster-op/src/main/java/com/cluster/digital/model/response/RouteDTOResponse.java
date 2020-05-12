@@ -17,9 +17,8 @@ import java.util.List;
 public class RouteDTOResponse {
     private String id;
     private String name;
-    private String district;
-    private String state;
     private List<String> mccList;
     private String dairyId;
     private String clusterId;
+    private String fieldExecutiveId;
 }

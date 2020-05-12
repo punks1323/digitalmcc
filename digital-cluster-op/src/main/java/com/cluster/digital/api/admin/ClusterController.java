@@ -1,5 +1,6 @@
 package com.cluster.digital.api.admin;
 
+import com.cluster.digital.exception.IdsNotFoundInDatabaseException;
 import com.cluster.digital.model.request.ClusterDTORequest;
 import com.cluster.digital.model.response.ClusterDTOResponse;
 import com.cluster.digital.service.ClusterService;
@@ -21,18 +22,23 @@ public class ClusterController {
     @Autowired
     ClusterService clusterService;
 
+    @PostMapping
+    public List<ClusterDTOResponse> createCluster(@Valid @RequestBody ClusterDTORequest request) throws IdsNotFoundInDatabaseException {
+        return clusterService.createNewCluster(request);
+    }
+
     @GetMapping
     public List<ClusterDTOResponse> getAllClusters(@RequestParam(value = "search", required = false) String query) {
         return clusterService.getAllClusters(query);
     }
 
     @GetMapping("/{clusterId}")
-    public ClusterDTOResponse getCluster(@PathVariable("clusterId") String clusterId) throws Throwable {
+    public List<ClusterDTOResponse> getCluster(@PathVariable("clusterId") String clusterId) throws Throwable {
         return clusterService.getCluster(clusterId);
     }
 
-    @PostMapping
-    public ClusterDTOResponse createCluster(@Valid @RequestBody ClusterDTORequest clusterDTORequest) {
-        return clusterService.createNewCluster(clusterDTORequest);
+    @PatchMapping("/{clusterId}")
+    public ClusterDTOResponse updateCluster(@PathVariable("clusterId") String clusterId, @RequestBody ClusterDTORequest request) throws Throwable {
+        return clusterService.updateCluster(clusterId, request);
     }
 }

@@ -4,6 +4,7 @@ import com.cluster.digital.constants.KycConstants;
 import com.cluster.digital.model.response.CspDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -17,8 +18,8 @@ import javax.validation.constraints.Pattern;
  * @since 2019-06-27
  */
 @Entity
-@Table
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Csp extends Auditable<String> {
 
     private static final String ID_GENERATOR = "csp-id-generator";
@@ -40,11 +41,12 @@ public class Csp extends Auditable<String> {
     @Pattern(regexp = "^[6-9]\\d{9}$")
     private String mobileNumber;
 
-    @ManyToOne
+    @OneToOne
     private Mcc mcc;
 
     @Enumerated(EnumType.STRING)
     private KycConstants.KycType kycType;
+
     private String kycNumber;
     private String kycImage;
     private String cspImage;
@@ -60,7 +62,7 @@ public class Csp extends Auditable<String> {
         response.setKycNumber(this.getKycNumber());
         response.setKycImage(this.getKycImage());
         response.setCspImage(this.getCspImage());
-        response.setMccId(this.getMcc().getId());
+        response.setMccId(this.getMcc() != null ? this.getMcc().getId() : null);
         return response;
     }
 }

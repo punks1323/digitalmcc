@@ -4,6 +4,7 @@ import com.cluster.digital.constants.KycConstants;
 import com.cluster.digital.model.response.FarmerDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -17,8 +18,8 @@ import javax.validation.constraints.Pattern;
  * @since 2019-06-27
  */
 @Entity
-@Table
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Farmer extends Auditable<String> {
 
     private static final String ID_GENERATOR = "farmer-id-generator";
@@ -72,7 +73,7 @@ public class Farmer extends Auditable<String> {
         response.setKycImage(this.getKycImage());
         response.setLatitude(this.getLatitude());
         response.setLongitude(this.getLongitude());
-        response.setMccId(this.getMcc().getId());
+        response.setMccId(this.getMcc() != null ? this.getMcc().getId() : null);
         return response;
     }
 }

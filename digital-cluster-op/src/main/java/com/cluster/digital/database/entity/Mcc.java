@@ -3,6 +3,7 @@ package com.cluster.digital.database.entity;
 import com.cluster.digital.model.response.MccDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -16,6 +17,7 @@ import javax.persistence.*;
  */
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class Mcc extends Auditable<String> {
 
     private static final String ID_GENERATOR = "mcc-id-generator";
@@ -29,7 +31,6 @@ public class Mcc extends Auditable<String> {
             strategy = GENERATOR_PACKAGE)
     private String id;
 
-    @Column(unique = true)
     private String name;
     private String address;
     private String village;
@@ -37,10 +38,10 @@ public class Mcc extends Auditable<String> {
     private String pincode;
     private Double latitude;
     private Double longitude;
+    private String image;
 
     @ManyToOne
     private Route route;
-    private String image;
 
     public MccDTOResponse getResponseDTO() {
         MccDTOResponse response = new MccDTOResponse();
@@ -53,9 +54,10 @@ public class Mcc extends Auditable<String> {
         response.setLatitude(this.getLatitude());
         response.setLongitude(this.getLongitude());
         response.setImage(this.getImage());
-        response.setRouteId(this.getRoute().getId());
-        response.setDairyId(this.getRoute().getDairy().getId());
-        response.setClusterId(this.getRoute().getDairy().getCluster().getId());
+
+        response.setRouteId(this.getRoute() != null ? this.getRoute().getId() : null);
+        response.setDairyId((this.getRoute() != null && this.getRoute().getDairy() != null) ? this.getRoute().getDairy().getId() : null);
+        response.setClusterId((this.getRoute() != null && this.getRoute().getDairy() != null && this.getRoute().getDairy().getCluster() != null) ? this.getRoute().getDairy().getCluster().getId() : null);
         return response;
     }
 }

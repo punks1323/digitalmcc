@@ -11,6 +11,4 @@ public interface AppUserService {
 
     AppUser createAdmin(String username, String password);
 
-    AppUser createFieldEngineer(String username);
-
 }

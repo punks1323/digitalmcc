@@ -2,6 +2,8 @@ package com.cluster.digital.database.repo;
 
 import com.cluster.digital.database.entity.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -14,7 +16,13 @@ import java.util.List;
  */
 @Repository
 public interface RouteRepository extends JpaRepository<Route, String> {
-    List<Route> findByIdIn(Collection<String> ids);
 
-    List<Route> findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(String name, String district, String state);
+    @Query("SELECT id FROM Route WHERE dairy_id = :dairyId")
+    List<String> findRouteIdByDairyId(@Param("dairyId") String dairyId);
+
+    List<Route> findByNameIgnoreCaseContaining(String name);
+
+    @Query("SELECT id FROM Route WHERE field_executive_id = :fieldExecutiveId")
+    List<String> findRouteIdsByFieldExecutiveIdId(@Param("fieldExecutiveId") String fieldExecutiveId);
+
 }

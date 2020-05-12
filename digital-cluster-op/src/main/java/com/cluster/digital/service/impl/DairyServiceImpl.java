@@ -6,12 +6,14 @@ import com.cluster.digital.database.entity.Route;
 import com.cluster.digital.database.repo.ClusterRepository;
 import com.cluster.digital.database.repo.DairyRepository;
 import com.cluster.digital.database.repo.RouteRepository;
-import com.cluster.digital.exception.AllIdDoesNotFoundException;
 import com.cluster.digital.model.request.DairyDTORequest;
 import com.cluster.digital.model.response.DairyDTOResponse;
 import com.cluster.digital.service.DairyService;
+import com.cluster.digital.utils.BeanUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,41 +35,53 @@ public class DairyServiceImpl implements DairyService {
     }
 
     @Override
-    public DairyDTOResponse createNewDairy(DairyDTORequest dairyDTORequest) throws Throwable {
+    public List<DairyDTOResponse> createNewDairy(DairyDTORequest request) throws Throwable {
 
         // validate cluster id
-        Cluster cluster = check4ClusterExistence(clusterRepository, dairyDTORequest.getClusterId());
+        Cluster cluster = check4ClusterExistence(clusterRepository, request.getClusterId());
 
-        // validate all route ids
-        List<Route> allRoutes = routeRepository.findByIdIn(dairyDTORequest.getRouteIds());
-        if (allRoutes.size() != dairyDTORequest.getRouteIds().size())
-            throw new AllIdDoesNotFoundException("Some route ids not found in database: " + dairyDTORequest.getRouteIds());
-
-        Dairy dairy = new Dairy();
-        dairy.setName(dairyDTORequest.getName());
+        Dairy dairy = BeanUtils.copyBeanProperties(request, new Dairy());
         dairy.setCluster(cluster);
-        dairy.setDistrict(dairyDTORequest.getDistrict());
-        dairy.setState(dairyDTORequest.getState());
-        dairy.setRoutes(allRoutes);
-        return dairyRepository.save(dairy).getResponseDTO();
+
+        Dairy savedDairy = dairyRepository.save(dairy);
+        return attachRouteIdsAndReturn(Collections.singletonList(savedDairy));
     }
 
     @Override
     public List<DairyDTOResponse> getAllDairies(String query) {
         List<Dairy> dairies = query == null ? dairyRepository.findAll() : dairyRepository.findByNameIgnoreCaseContainingOrDistrictIgnoreCaseContainingOrStateIgnoreCaseContaining(query, query, query);
-        return dairies.stream().map(Dairy::getResponseDTO).collect(Collectors.toList());
+        return attachRouteIdsAndReturn(dairies);
     }
 
     @Override
-    public DairyDTOResponse addRoutesToDairy(String dairyId, List<String> routeIds) throws Throwable {
+    public List<DairyDTOResponse> updateDairy(String dairyId, DairyDTORequest request) throws Throwable {
 
+        // verify that dairy exists
         Dairy dairy = check4DairyExistence(dairyRepository, dairyId);
 
-        Collection<Route> routes = routeRepository.findByIdIn(routeIds);
-        if (routes.size() != routeIds.size())
-            throw new AllIdDoesNotFoundException("Some route ids not found in database: " + routeIds);
+        // verify that all route ids are correct
+        Collection<Route> routes = verifyAllRouteIds(routeRepository, request.getRouteIds());
 
-        dairy.getRoutes().addAll(routes);
-        return dairyRepository.save(dairy).getResponseDTO();
+        BeanUtils.copyBeanProperties(request, dairy);
+        dairyRepository.save(dairy);
+
+        // set new dairy for all given routes
+        List<Route> modifiedRoutes = routes.stream().map(r -> {
+            r.setDairy(dairy);
+            return r;
+        }).collect(Collectors.toList());
+
+        // update routes
+        routeRepository.saveAll(modifiedRoutes);
+
+        return attachRouteIdsAndReturn(Collections.singletonList(dairy));
+    }
+
+    private List<DairyDTOResponse> attachRouteIdsAndReturn(List<Dairy> dairies) {
+        return dairies.stream().map(dairy -> {
+            DairyDTOResponse response = dairy.getResponseDTO();
+            response.setRoutes(routeRepository.findRouteIdByDairyId(dairy.getId()));
+            return response;
+        }).collect(Collectors.toList());
     }
 }

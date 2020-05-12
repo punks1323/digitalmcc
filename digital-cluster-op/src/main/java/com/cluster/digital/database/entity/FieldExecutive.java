@@ -3,11 +3,15 @@ package com.cluster.digital.database.entity;
 import com.cluster.digital.model.response.FieldExecutiveDTOResponse;
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -16,8 +20,8 @@ import javax.validation.constraints.Pattern;
  * @since 2019-06-27
  */
 @Entity
-@Table
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class FieldExecutive extends Auditable<String> {
 
     private static final String GENERATOR = "fe-id-generator";
@@ -37,17 +41,11 @@ public class FieldExecutive extends Auditable<String> {
     @Column(unique = true)
     private String mobile;
 
-    @OneToOne
-    private Route route;
-
     public FieldExecutiveDTOResponse getResponseDTO() {
         FieldExecutiveDTOResponse response = new FieldExecutiveDTOResponse();
         response.setId(this.getId());
         response.setName(this.getName());
         response.setMobile(this.getMobile());
-        response.setRouteId(this.getRoute().getId());
-        response.setDairyId(this.getRoute().getDairy().getId());
-        response.setClusterId(this.getRoute().getDairy().getCluster().getId());
         return response;
     }
 }

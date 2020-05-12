@@ -2,12 +2,14 @@ package com.cluster.digital.database.entity;
 
 import com.cluster.digital.utils.DConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class AppUser extends Auditable<String> implements UserDetails {
 
     private static final String USER_ID_GENERATOR = "app-user-id-generator";

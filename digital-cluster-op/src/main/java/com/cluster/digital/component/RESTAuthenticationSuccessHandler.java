@@ -71,9 +71,9 @@ public class RESTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
             Optional<Authentication> authentication1 = Optional.ofNullable(authentication);
             if (authentication1.isPresent()) {
                 Authentication authentication2 = authentication1.get();
-                User appUser = (User) authentication2.getPrincipal();
-                loginResponse.setUsername(appUser.getUsername());
-                log.info("LOGGED IN : " + appUser.getUsername());
+                User user = (User) authentication2.getPrincipal();
+                loginResponse.setUsername(user.getUsername());
+                log.info("LOGGED IN : " + user.getUsername());
 
                 List<String> roles = authentication2.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
                 loginResponse.setRoles(roles);
@@ -83,7 +83,7 @@ public class RESTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
              * Write response
              */
 
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             PrintWriter writer = response.getWriter();
 
             writer.write(objectMapper.writeValueAsString(loginResponse));

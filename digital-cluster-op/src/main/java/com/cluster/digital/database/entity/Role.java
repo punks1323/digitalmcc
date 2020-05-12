@@ -1,6 +1,7 @@
 package com.cluster.digital.database.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,8 +12,8 @@ import javax.persistence.*;
  * @since 2019-06-27
  */
 @Entity
-@Table(name = "role")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 public class Role {
 

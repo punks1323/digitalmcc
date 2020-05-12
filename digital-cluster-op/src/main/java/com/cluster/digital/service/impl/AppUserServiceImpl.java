@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppUserServiceImpl implements AppUserService {
 
-    private final AppUserRepository appUserRepoService;
+    private final AppUserRepository userRepoService;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -37,42 +37,28 @@ public class AppUserServiceImpl implements AppUserService {
     @Value("${deviceRegistration.pwdLength:8}")
     private String pwdLength;
 
-    public AppUserServiceImpl(AppUserRepository appUserRepoService, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
-        this.appUserRepoService = appUserRepoService;
+    public AppUserServiceImpl(AppUserRepository userRepoService, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
+        this.userRepoService = userRepoService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleRepoService = roleRepository;
     }
 
     @Override
     public AppUser createAdmin(String username, String password) {
-        Optional<AppUser> byUsername = appUserRepoService.findByUsername(username);
+        Optional<AppUser> byUsername = userRepoService.findByUsername(username);
         if (!byUsername.isPresent()) {
+
+            // fetch all roles from database
             Set<String> roles = new HashSet<>();
             roles.add(DConstants.ROLE.ROLE_ADMIN);
             List<Role> rolesForUser = roles.stream().map(roleRepoService::findByName).collect(Collectors.toList());
 
+            // attach roles to user
             AppUser appUser = new AppUser();
             appUser.setUsername(username);
             appUser.setPassword(bCryptPasswordEncoder.encode(password));
             appUser.setRoles(rolesForUser);
-            return appUserRepoService.save(appUser);
-        }
-        return byUsername.get();
-    }
-
-    @Override
-    public AppUser createFieldEngineer(String username) {
-        Optional<AppUser> byUsername = appUserRepoService.findByUsername(username);
-        if (!byUsername.isPresent()) {
-            Set<String> roles = new HashSet<>();
-            roles.add(DConstants.ROLE.ROLE_FE);
-            List<Role> rolesForUser = roles.stream().map(roleRepoService::findByName).collect(Collectors.toList());
-
-            AppUser appUser = new AppUser();
-            appUser.setUsername(username);
-            appUser.setPassword(bCryptPasswordEncoder.encode(SecurityUtil.generatePwd(pwdLength, username)));
-            appUser.setRoles(rolesForUser);
-            return appUserRepoService.save(appUser);
+            return userRepoService.save(appUser);
         }
         return byUsername.get();
     }

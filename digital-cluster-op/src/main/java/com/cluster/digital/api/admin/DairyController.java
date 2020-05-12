@@ -27,12 +27,12 @@ public class DairyController {
     }
 
     @PostMapping
-    public DairyDTOResponse createNewDairy(@Valid @RequestBody DairyDTORequest dairyDTORequest) throws Throwable {
+    public List<DairyDTOResponse> createNewDairy(@Valid @RequestBody DairyDTORequest dairyDTORequest) throws Throwable {
         return dairyService.createNewDairy(dairyDTORequest);
     }
 
     @PatchMapping("/{dairyId}")
-    public DairyDTOResponse addRoutesToDairy(@PathVariable("dairyId") String dairyId, @RequestBody List<String> routeIds) throws Throwable {
-        return dairyService.addRoutesToDairy(dairyId, routeIds);
+    public List<DairyDTOResponse> updateDairy(@PathVariable("dairyId") String dairyId, @RequestBody DairyDTORequest dairyDTORequest) throws Throwable {
+        return dairyService.updateDairy(dairyId, dairyDTORequest);
     }
 }

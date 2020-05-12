@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2020-05-08
  */
-public interface BaseInterface {
+public interface BaseInterface extends CommonChecks {
     default Cluster check4ClusterExistence(ClusterRepository clusterRepository, String cluster) throws Throwable {
         return clusterRepository.findById(cluster).orElseThrow((Supplier<Throwable>) () -> new IdDoesNotExistsException("No cluster found with id: " + cluster));
     }

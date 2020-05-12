@@ -3,6 +3,8 @@ package com.cluster.digital.model.request;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author pankaj
@@ -15,4 +17,5 @@ public class ClusterDTORequest {
     private String name;
     private String district;
     private String state;
+    private Collection<String> dairies;
 }

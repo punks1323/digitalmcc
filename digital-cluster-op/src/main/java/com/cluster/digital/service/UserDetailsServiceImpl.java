@@ -27,16 +27,16 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AppUserRepository appUserRepoService;
+    private AppUserRepository userRepoService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<AppUser> appUserOptional = appUserRepoService.findByUsername(username);
-        if (!appUserOptional.isPresent()) {
-            throw new UsernameNotFoundException("AppUser not found with username : " + username);
+        Optional<AppUser> userOptional = userRepoService.findByUsername(username);
+        if (!userOptional.isPresent()) {
+            throw new UsernameNotFoundException("User not found with username : " + username);
         }
-        AppUser appUser = appUserOptional.get();
+        AppUser appUser = userOptional.get();
 
         return new org.springframework.security.core.userdetails.User(
                 appUser.getUsername(), appUser.getPassword(), appUser.isEnabled(), true, true,

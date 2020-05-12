@@ -24,7 +24,7 @@ public class MccController {
     MccService mccService;
 
     @PostMapping
-    public MccDTOResponse createMCC(MccDTORequest mccDTORequest) throws Throwable {
+    public List<MccDTOResponse> createMCC(MccDTORequest mccDTORequest) throws Throwable {
         return mccService.createNewMcc(mccDTORequest);
     }
 
@@ -34,12 +34,12 @@ public class MccController {
     }
 
     @GetMapping("/{mccId}")
-    public MccDTOResponse getMccDetails(@PathVariable("mccId") String mccId) throws Throwable {
+    public List<MccDTOResponse> getMccDetails(@PathVariable("mccId") String mccId) throws Throwable {
         return mccService.getMcc(mccId);
     }
 
     @PutMapping("/{mccId}")
-    public MccDTOResponse updateImageForMcc(@PathVariable("mccId") String mccId, @RequestParam("mccImage") MultipartFile mccImage) throws Throwable {
+    public List<MccDTOResponse> updateImageForMcc(@PathVariable("mccId") String mccId, @RequestParam("mccImage") MultipartFile mccImage) throws Throwable {
         return mccService.updateImage(mccId, mccImage);
     }
 
